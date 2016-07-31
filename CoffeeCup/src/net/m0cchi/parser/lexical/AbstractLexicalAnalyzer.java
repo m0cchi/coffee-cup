@@ -14,7 +14,7 @@ public abstract class AbstractLexicalAnalyzer {
 	 */
 	private final static int EOF = -1;
 	private final static Map<Integer, AtomicType> SIGN_MAP = new HashMap<>();
-	private final static Map<Integer, AtomicType> SKIP_MAP = new HashMap<>();
+	private final static List<Integer> SKIP_LIST = new ArrayList<Integer>();
 	private final static List<Integer> DIGIT_LIST = new ArrayList<Integer>();
 
 	static {
@@ -22,7 +22,7 @@ public abstract class AbstractLexicalAnalyzer {
 	}
 
 	private static int toAsciiCode(String character) {
-		return "(".getBytes()[0];
+		return character.getBytes()[0];
 	}
 
 	private static void init() {
@@ -30,8 +30,8 @@ public abstract class AbstractLexicalAnalyzer {
 		SIGN_MAP.putIfAbsent(toAsciiCode("("), AtomicType.LEFT_PARENTHESIS);
 		SIGN_MAP.putIfAbsent(toAsciiCode(")"), AtomicType.RIGHT_PARENTHESIS);
 		// init skip
-		SKIP_MAP.putIfAbsent(toAsciiCode("\n"), AtomicType.RIGHT_PARENTHESIS);
-		SKIP_MAP.putIfAbsent(toAsciiCode(" "), AtomicType.RIGHT_PARENTHESIS);
+		SKIP_LIST.add(toAsciiCode("\n"));
+		SKIP_LIST.add(toAsciiCode(" "));
 		// init number
 		for (String num : "1,2,3,4,5,6,7,8,9,0".split(",")) {
 			DIGIT_LIST.add(toAsciiCode(num));
@@ -71,16 +71,20 @@ public abstract class AbstractLexicalAnalyzer {
 	private AtomicValue parser() {
 		int code;
 		AtomicValue value = null;
+		
 		while ((code = read()) != EOF) {
-			if (SKIP_MAP.containsKey(code)) {
+
+			if (SKIP_LIST.contains(code)) {
 				continue;
 			} else if (SIGN_MAP.containsKey(code)) {
-				value = new AtomicValue(SKIP_MAP.get(code), null);
-			} else if(DIGIT_LIST.contains(code)) {
+				value = new AtomicValue(SIGN_MAP.get(code), null);
+				break;
+			} else if (DIGIT_LIST.contains(code)) {
 				continue;
 			} else {
 				continue;
 			}
+
 		}
 
 		return value;

@@ -8,4 +8,21 @@ public class AtomicValue {
 		this.type = type;
 		this.nativeValue = nativeValue;
 	}
+
+	public AtomicType getType() {
+		return type;
+	}
+
+	public void setType(AtomicType type) {
+		this.type = type;
+	}
+
+	public String getNativeValue() {
+		return nativeValue;
+	}
+
+	public void setNativeValue(String nativeValue) {
+		this.nativeValue = nativeValue;
+	}
+	
 }
