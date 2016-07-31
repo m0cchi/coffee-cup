@@ -78,7 +78,6 @@ public class TestLexicalAnalyser {
 
 		assertSame(expected2.length, i);
 	}
-	
 
 	@Test
 	public void testLetter() {
@@ -90,7 +89,7 @@ public class TestLexicalAnalyser {
 			assertThat(value.getNativeValue(), is(equalTo(expected[i++])));
 		}
 		assertSame(expected.length, i);
-		
+
 	}
 
 	@Test
