@@ -1,9 +1,8 @@
 package net.m0cchi.parser.lexical;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 import net.m0cchi.parser.syntax.SyntaxAnalyzer;
 import net.m0cchi.value.AtomicType;
-import net.m0cchi.value.AtomicValue;
 import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
@@ -12,8 +11,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.sun.xml.internal.ws.client.sei.ValueSetter;
 
 public class TestSyntaxAnalyzer {
 
