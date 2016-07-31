@@ -13,12 +13,14 @@ public abstract class AbstractLexicalAnalyzer {
 	 * END OF SOURCE CODE
 	 */
 	private final static int EOF = -1;
+	private final static int DOT;
 	private final static Map<Integer, AtomicType> SIGN_MAP = new HashMap<>();
 	private final static List<Integer> SKIP_LIST = new ArrayList<Integer>();
 	private final static List<Integer> DIGIT_LIST = new ArrayList<Integer>();
 
 	static {
 		init();
+		DOT = toAsciiCode(".");
 	}
 
 	private static int toAsciiCode(String character) {
@@ -63,6 +65,33 @@ public abstract class AbstractLexicalAnalyzer {
 		return parser();
 	}
 
+	private AtomicValue parseDigit() {
+		int dotCounter = 0;
+		int code;
+		AtomicValue value = null;
+		StringBuilder sb = new StringBuilder();
+		while((code = read()) != EOF) {
+			if(!(DIGIT_LIST.contains(code) || code == DOT)) {
+				unread(code);
+				break;
+			}
+			
+			if(code == DOT && dotCounter++ == 1){
+				// TODO: throw exception
+				break;
+			}
+			sb.append((char)code); 
+		}
+		
+		if(dotCounter != 2) {
+			value = new AtomicValue(AtomicType.DIGIT, sb.toString());
+		} else {
+			value = new AtomicValue(AtomicType.TERMINAL, sb.toString());
+		}
+		
+		return value;
+	}
+	
 	/**
 	 * source code parser
 	 * 
@@ -80,7 +109,9 @@ public abstract class AbstractLexicalAnalyzer {
 				value = new AtomicValue(SIGN_MAP.get(code), null);
 				break;
 			} else if (DIGIT_LIST.contains(code)) {
-				continue;
+				unread(code);
+				value = parseDigit();
+				break;
 			} else {
 				continue;
 			}

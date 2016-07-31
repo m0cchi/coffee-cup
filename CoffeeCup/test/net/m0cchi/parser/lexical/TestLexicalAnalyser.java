@@ -1,9 +1,10 @@
 package net.m0cchi.parser.lexical;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertThat;
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.AtomicValue;
-
+import static org.hamcrest.CoreMatchers.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -36,6 +37,18 @@ public class TestLexicalAnalyser {
 		int i = 0;
 		while ((value = lexicalAnalyzer.take()) != null && value.getType() != AtomicType.TERMINAL) {
 			assertSame(expected[i++], value.getType());
+		}
+		assertSame(expected.length, i);
+	}
+
+	@Test
+	public void testDigit() {
+		String[] expected = { "123456789", "123.456", "0000000" };
+		AbstractLexicalAnalyzer lexicalAnalyzer = new StringLexicalAnalyser(String.join(" ", expected));
+		AtomicValue value = null;
+		int i = 0;
+		while ((value = lexicalAnalyzer.take()) != null && value.getType() != AtomicType.TERMINAL) {
+			assertThat(value.getNativeValue(), is(equalTo(expected[i++])));
 		}
 		assertSame(expected.length, i);
 	}
