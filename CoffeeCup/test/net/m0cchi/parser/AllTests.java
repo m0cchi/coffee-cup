@@ -1,4 +1,4 @@
-package net.m0cchi.parser.lexical;
+package net.m0cchi.parser;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

@@ -1,9 +1,10 @@
-package net.m0cchi.parser.lexical;
+package net.m0cchi.parser;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
+import net.m0cchi.parser.lexical.StringLexicalAnalyser;
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
 import net.m0cchi.parser.syntax.SyntaxAnalyzer;
 import net.m0cchi.value.AtomicType;

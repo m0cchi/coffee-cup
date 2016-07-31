@@ -1,6 +1,7 @@
-package net.m0cchi.parser.lexical;
+package net.m0cchi.parser;
 
 import static org.junit.Assert.assertSame;
+import net.m0cchi.parser.lexical.StringLexicalAnalyser;
 import net.m0cchi.parser.syntax.SyntaxAnalyzer;
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.SList;
