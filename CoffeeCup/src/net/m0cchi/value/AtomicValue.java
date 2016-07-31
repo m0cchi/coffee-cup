@@ -1,20 +1,11 @@
 package net.m0cchi.value;
 
-public class AtomicValue {
-	private AtomicType type;
+public class AtomicValue extends Value {
 	private String nativeValue;
 	
 	public AtomicValue(AtomicType type,String nativeValue) {
 		this.type = type;
 		this.nativeValue = nativeValue;
-	}
-
-	public AtomicType getType() {
-		return type;
-	}
-
-	public void setType(AtomicType type) {
-		this.type = type;
 	}
 
 	public String getNativeValue() {

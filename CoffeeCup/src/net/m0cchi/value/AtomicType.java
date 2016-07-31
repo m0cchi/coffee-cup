@@ -6,5 +6,6 @@ public enum AtomicType {
 	TERMINAL,
 	DIGIT,
 	SYMBOL,
-	LETTER
+	LETTER,
+	SLIST
 }
