@@ -39,14 +39,13 @@ public class TestSyntaxAnalyzer {
 		assertSame(1, values.length); // top level slist
 
 		SList slist = (SList) values[0];
-		assertSame(6, slist.toArray().length);// count elements
+		assertSame(4, slist.toArray().length);// count elements
 
 		// check elements
 		values = slist.toArray();
-		AtomicType[] expected = { AtomicType.LEFT_PARENTHESIS, AtomicType.SYMBOL, AtomicType.DIGIT, AtomicType.SLIST, AtomicType.DIGIT,
-				AtomicType.RIGHT_PARENTHESIS };
+		AtomicType[] expected = { AtomicType.SYMBOL, AtomicType.DIGIT, AtomicType.SLIST, AtomicType.DIGIT };
 		int i = 0;
-		for(Value value : values){
+		for (Value value : values) {
 			assertSame(expected[i++], value.getType());
 		}
 		assertSame(expected.length, i);
