@@ -92,6 +92,21 @@ public abstract class AbstractLexicalAnalyzer {
 		return value;
 	}
 	
+	private AtomicValue parseSymbol() {
+		AtomicValue value = null;
+		int code;
+		StringBuilder sb = new StringBuilder();
+		while((code = read()) != EOF) {
+			if (SKIP_LIST.contains(code) || SIGN_MAP.containsKey(code)) {
+				unread(code);
+				break;
+			}
+			sb.append((char)code); 
+		}
+		value = new AtomicValue(AtomicType.SYMBOL, sb.toString());
+		return value;
+	}
+	
 	/**
 	 * source code parser
 	 * 
@@ -113,7 +128,9 @@ public abstract class AbstractLexicalAnalyzer {
 				value = parseDigit();
 				break;
 			} else {
-				continue;
+				unread(code);
+				value = parseSymbol();
+				break;
 			}
 
 		}
