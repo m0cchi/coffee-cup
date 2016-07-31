@@ -1,5 +1,6 @@
 package net.m0cchi.parser.lexical;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -114,14 +115,14 @@ public abstract class AbstractLexicalAnalyzer {
 
 	private AtomicValue parseLetter(int period) {
 		AtomicValue value = null;
-		StringBuilder sb = new StringBuilder();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int code;
-		sb.append((char) period); 
+		baos.write(period); 
 		while (!((code = read()) == EOF || code == period)) {
-			sb.append((char) code);
-		}
-		sb.append((char) period); 
-		value = new AtomicValue(AtomicType.LETTER, sb.toString());
+			baos.write(code); 
+		} 
+		baos.write(period); 
+		value = new AtomicValue(AtomicType.LETTER, baos.toString());
 		return value;
 	}
 	

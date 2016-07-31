@@ -93,4 +93,15 @@ public class TestLexicalAnalyser {
 		
 	}
 
+	@Test
+	public void testJP() {
+		String[] expected = { "\"あいうえお\"" };
+		AbstractLexicalAnalyzer lexicalAnalyzer = new StringLexicalAnalyser(String.join(" ", expected));
+		AtomicValue value = null;
+		int i = 0;
+		while ((value = lexicalAnalyzer.take()) != null && value.getType() != AtomicType.TERMINAL) {
+			assertThat(value.getNativeValue(), is(equalTo(expected[i++])));
+		}
+		assertSame(expected.length, i);
+	}
 }
