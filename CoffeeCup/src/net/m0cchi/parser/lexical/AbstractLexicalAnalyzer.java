@@ -86,6 +86,10 @@ public abstract class AbstractLexicalAnalyzer {
 			}
 
 		}
+		
+		if(code == EOF) {
+			value = new AtomicValue(AtomicType.TERMINAL, null);
+		}
 
 		return value;
 	}

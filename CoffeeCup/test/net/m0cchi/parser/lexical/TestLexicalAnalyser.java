@@ -34,7 +34,7 @@ public class TestLexicalAnalyser {
 		AtomicType[] expected = { AtomicType.LEFT_PARENTHESIS, AtomicType.RIGHT_PARENTHESIS };
 		AtomicValue value = null;
 		int i = 0;
-		while ((value = lexicalAnalyzer.take()) != null) {
+		while ((value = lexicalAnalyzer.take()) != null && value.getType() != AtomicType.TERMINAL) {
 			assertSame(expected[i++], value.getType());
 		}
 		assertSame(expected.length, i);
