@@ -57,7 +57,7 @@ public class TestLexicalAnalyser {
 
 	@Test
 	public void testSymbol() {
-		String[] expected = { "hello", "hoge123.456.asd", "!a", "#a", "$a", "%a", "&a", "'a" };
+		String[] expected = { "hello", "hoge123.456.asd", "!a", "#a", "$a", "%a", "&a", "a" };
 		AbstractLexicalAnalyzer lexicalAnalyzer = new StringLexicalAnalyser(String.join(" ", expected));
 		AtomicValue value = null;
 		int i = 0;
@@ -77,6 +77,20 @@ public class TestLexicalAnalyser {
 		}
 
 		assertSame(expected2.length, i);
+	}
+	
+
+	@Test
+	public void testLetter() {
+		String[] expected = { "\"he(l)''''' \nlo\"" };
+		AbstractLexicalAnalyzer lexicalAnalyzer = new StringLexicalAnalyser(String.join(" ", expected));
+		AtomicValue value = null;
+		int i = 0;
+		while ((value = lexicalAnalyzer.take()) != null && value.getType() != AtomicType.TERMINAL) {
+			assertThat(value.getNativeValue(), is(equalTo(expected[i++])));
+		}
+		assertSame(expected.length, i);
+		
 	}
 
 }

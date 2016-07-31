@@ -15,8 +15,9 @@ public abstract class AbstractLexicalAnalyzer {
 	private final static int EOF = -1;
 	private final static int DOT;
 	private final static Map<Integer, AtomicType> SIGN_MAP = new HashMap<>();
-	private final static List<Integer> SKIP_LIST = new ArrayList<Integer>();
-	private final static List<Integer> DIGIT_LIST = new ArrayList<Integer>();
+	private final static List<Integer> SKIP_LIST = new ArrayList<>();
+	private final static List<Integer> DIGIT_LIST = new ArrayList<>();
+	private final static List<Integer> LETTER_LIST = new ArrayList<>();
 
 	static {
 		init();
@@ -35,8 +36,12 @@ public abstract class AbstractLexicalAnalyzer {
 		SKIP_LIST.add(toAsciiCode("\n"));
 		SKIP_LIST.add(toAsciiCode(" "));
 		// init number
-		for (String num : "1,2,3,4,5,6,7,8,9,0".split(",")) {
-			DIGIT_LIST.add(toAsciiCode(num));
+		for (String code : "1,2,3,4,5,6,7,8,9,0".split(",")) {
+			DIGIT_LIST.add(toAsciiCode(code));
+		}
+		// init letter
+		for (String code : "'\"".split("")) {
+			LETTER_LIST.add(toAsciiCode(code));
 		}
 	}
 
@@ -70,40 +75,53 @@ public abstract class AbstractLexicalAnalyzer {
 		int code;
 		AtomicValue value = null;
 		StringBuilder sb = new StringBuilder();
-		while((code = read()) != EOF) {
-			if(!(DIGIT_LIST.contains(code) || code == DOT)) {
+		while ((code = read()) != EOF) {
+			if (!(DIGIT_LIST.contains(code) || code == DOT)) {
 				unread(code);
 				break;
 			}
-			
-			if(code == DOT && dotCounter++ == 1){
+
+			if (code == DOT && dotCounter++ == 1) {
 				// TODO: throw exception
 				break;
 			}
-			sb.append((char)code); 
+			sb.append((char) code);
 		}
-		
-		if(dotCounter != 2) {
+
+		if (dotCounter != 2) {
 			value = new AtomicValue(AtomicType.DIGIT, sb.toString());
 		} else {
 			value = new AtomicValue(AtomicType.TERMINAL, sb.toString());
 		}
-		
+
 		return value;
 	}
-	
+
 	private AtomicValue parseSymbol() {
-		AtomicValue value = null;
+		AtomicValue value;
 		int code;
 		StringBuilder sb = new StringBuilder();
-		while((code = read()) != EOF) {
+		while ((code = read()) != EOF) {
 			if (SKIP_LIST.contains(code) || SIGN_MAP.containsKey(code)) {
 				unread(code);
 				break;
 			}
-			sb.append((char)code); 
+			sb.append((char) code);
 		}
 		value = new AtomicValue(AtomicType.SYMBOL, sb.toString());
+		return value;
+	}
+
+	private AtomicValue parseLetter(int period) {
+		AtomicValue value = null;
+		StringBuilder sb = new StringBuilder();
+		int code;
+		sb.append((char) period); 
+		while (!((code = read()) == EOF || code == period)) {
+			sb.append((char) code);
+		}
+		sb.append((char) period); 
+		value = new AtomicValue(AtomicType.LETTER, sb.toString());
 		return value;
 	}
 	
@@ -115,7 +133,7 @@ public abstract class AbstractLexicalAnalyzer {
 	private AtomicValue parser() {
 		int code;
 		AtomicValue value = null;
-		
+
 		while ((code = read()) != EOF) {
 
 			if (SKIP_LIST.contains(code)) {
@@ -127,6 +145,9 @@ public abstract class AbstractLexicalAnalyzer {
 				unread(code);
 				value = parseDigit();
 				break;
+			} else if (LETTER_LIST.contains(code)) {
+				value = parseLetter(code);
+				break;
 			} else {
 				unread(code);
 				value = parseSymbol();
@@ -134,8 +155,8 @@ public abstract class AbstractLexicalAnalyzer {
 			}
 
 		}
-		
-		if(code == EOF) {
+
+		if (code == EOF) {
 			value = new AtomicValue(AtomicType.TERMINAL, null);
 		}
 

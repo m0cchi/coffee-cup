@@ -5,5 +5,6 @@ public enum AtomicType {
 	RIGHT_PARENTHESIS,
 	TERMINAL,
 	DIGIT,
-	SYMBOL
+	SYMBOL,
+	LETTER
 }
