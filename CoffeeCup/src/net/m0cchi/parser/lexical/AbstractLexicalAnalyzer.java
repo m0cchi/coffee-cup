@@ -3,6 +3,7 @@ package net.m0cchi.parser.lexical;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,12 @@ public abstract class AbstractLexicalAnalyzer {
 	private final static List<Integer> SKIP_LIST = new ArrayList<>();
 	private final static List<Integer> DIGIT_LIST = new ArrayList<>();
 	private final static List<Integer> LETTER_LIST = new ArrayList<>();
+	private final LinkedList<AtomicValue> stack;
+
+	{
+		// initializer
+		this.stack = new LinkedList<>();
+	}
 
 	static {
 		init();
@@ -68,7 +75,18 @@ public abstract class AbstractLexicalAnalyzer {
 	 * @return AtomicValue
 	 */
 	public AtomicValue take() {
+		if (this.stack.size() > 0) {
+			return this.stack.pop();
+		}
 		return parser();
+	}
+	
+	/**
+	 * 
+	 * @param value
+	 */
+	public void push(AtomicValue value) {
+		this.stack.push(value);
 	}
 
 	private AtomicValue parseDigit() {
