@@ -15,13 +15,28 @@ public class SyntaxAnalyzer {
 	public SyntaxAnalyzer(AbstractLexicalAnalyzer lexicalAnalyzer) {
 		this.lexicalAnalyzer = lexicalAnalyzer;
 	}
-	
+
 	protected Value parse(AtomicValue first) {
-		AtomicType type = first.getType();
+		final AtomicType type = first.getType();
 		if (type == AtomicType.LEFT_PARENTHESIS) {
 			lexicalAnalyzer.push(first);
 			ListSyntaxAnalyzer syntaxAnalyzer = new ListSyntaxAnalyzer(lexicalAnalyzer);
 			return syntaxAnalyzer.parse();
+		} else if (type == AtomicType.QUOTE) {
+			Value second = parse(lexicalAnalyzer.take());
+			if (second.getType() == AtomicType.SYMBOL || second.getType() == AtomicType.SLIST) {
+				SList quote = new SList(new ArrayList<Value>() {
+					private static final long serialVersionUID = 1L;
+					{
+						add(second);
+					}
+				}) {
+					{
+						this.type = AtomicType.QUOTE;
+					}
+				};
+				return quote;
+			}
 		}
 		return first;
 	}

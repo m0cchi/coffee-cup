@@ -16,6 +16,7 @@ public abstract class AbstractLexicalAnalyzer {
 	 */
 	private final static int EOF = -1;
 	private final static int DOT;
+	private final static Map<Integer, AtomicType> PARENTHESIS_MAP = new HashMap<>();
 	private final static Map<Integer, AtomicType> SIGN_MAP = new HashMap<>();
 	private final static List<Integer> SKIP_LIST = new ArrayList<>();
 	private final static List<Integer> DIGIT_LIST = new ArrayList<>();
@@ -38,8 +39,10 @@ public abstract class AbstractLexicalAnalyzer {
 
 	private static void init() {
 		// init sign
-		SIGN_MAP.putIfAbsent(toAsciiCode("("), AtomicType.LEFT_PARENTHESIS);
-		SIGN_MAP.putIfAbsent(toAsciiCode(")"), AtomicType.RIGHT_PARENTHESIS);
+		PARENTHESIS_MAP.putIfAbsent(toAsciiCode("("), AtomicType.LEFT_PARENTHESIS);
+		PARENTHESIS_MAP.putIfAbsent(toAsciiCode(")"), AtomicType.RIGHT_PARENTHESIS);
+		SIGN_MAP.putAll(PARENTHESIS_MAP);
+		SIGN_MAP.putIfAbsent(toAsciiCode("'"), AtomicType.QUOTE);
 		// init skip
 		SKIP_LIST.add(toAsciiCode("\n"));
 		SKIP_LIST.add(toAsciiCode(" "));
@@ -121,7 +124,7 @@ public abstract class AbstractLexicalAnalyzer {
 		int code;
 		StringBuilder sb = new StringBuilder();
 		while ((code = read()) != EOF) {
-			if (SKIP_LIST.contains(code) || SIGN_MAP.containsKey(code)) {
+			if (SKIP_LIST.contains(code) || PARENTHESIS_MAP.containsKey(code)) {
 				unread(code);
 				break;
 			}

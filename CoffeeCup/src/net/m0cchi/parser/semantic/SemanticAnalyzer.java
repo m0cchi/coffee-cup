@@ -40,6 +40,10 @@ public class SemanticAnalyzer {
 			String name = ((AtomicValue)value).getNativeValue();
 			ret = environment.getValue(name);
 			break;
+		case QUOTE:
+			SList quote = (SList) value;
+			ret = quote.get(0);
+			break;
 		default:
 			ret = value;
 		}
