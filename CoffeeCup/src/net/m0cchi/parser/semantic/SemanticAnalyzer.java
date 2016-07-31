@@ -34,10 +34,15 @@ public class SemanticAnalyzer {
 		AtomicType type = value.getType();
 		switch (type) {
 		case SLIST:
-			ret = evaluate((SList) value);
+			SList slist = (SList) value;
+			if (slist.isEmpty()) {
+				ret = value;
+			} else {
+				ret = evaluate(slist);
+			}
 			break;
 		case SYMBOL:
-			String name = ((AtomicValue)value).getNativeValue();
+			String name = ((AtomicValue) value).getNativeValue();
 			ret = environment.getValue(name);
 			break;
 		case QUOTE:

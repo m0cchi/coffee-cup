@@ -15,14 +15,18 @@ public class SList extends Value {
 		this(new ArrayList<>());
 	}
 
+	public boolean isEmpty() {
+		return list.isEmpty();
+	}
+
 	public Value[] toArray() {
 		return list.toArray(new Value[0]);
 	}
-	
+
 	public Value get(int index) {
 		return list.get(index);
 	}
-	
+
 	public SList cdr() {
 		List<Value> list = new ArrayList<>(this.list);
 		list.remove(0);
