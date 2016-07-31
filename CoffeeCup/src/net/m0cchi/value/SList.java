@@ -18,4 +18,14 @@ public class SList extends Value {
 	public Value[] toArray() {
 		return list.toArray(new Value[0]);
 	}
+	
+	public Value get(int index) {
+		return list.get(index);
+	}
+	
+	public SList cdr() {
+		List<Value> list = new ArrayList<>(this.list);
+		list.remove(0);
+		return new SList(list);
+	}
 }

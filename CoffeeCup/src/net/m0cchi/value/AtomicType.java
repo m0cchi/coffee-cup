@@ -7,5 +7,7 @@ public enum AtomicType {
 	DIGIT,
 	SYMBOL,
 	LETTER,
-	SLIST
+	SLIST,
+	FUNCTION,
+	MACRO
 }
