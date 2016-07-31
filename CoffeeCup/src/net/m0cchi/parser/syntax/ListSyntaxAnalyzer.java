@@ -26,13 +26,10 @@ public class ListSyntaxAnalyzer extends SyntaxAnalyzer {
 		if(!isFirst(value)) {
 			// TODO: throw exception
 			return new SList();
-		} else {
-			list.add(value);
 		}
 		
 		while ((value = lexicalAnalyzer.take()) != null && value.getType() != AtomicType.TERMINAL) {
 			if (value.getType() == AtomicType.RIGHT_PARENTHESIS) {
-				list.add(value);
 				break;
 			}
 			list.add(parse(value));
