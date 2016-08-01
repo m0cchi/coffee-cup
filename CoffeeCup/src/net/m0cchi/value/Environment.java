@@ -26,6 +26,21 @@ public class Environment {
 		return this.variableMap.containsKey(name) ? this.variableMap.get(name) : this.parent != null ? this.parent.getValue(name) : new SList();
 	}
 	
+	public void setValue(String name, Value value) {
+		Environment pointer = this;
+		do {
+			if(pointer.variableMap.containsKey(name)) {
+				break;
+			}
+		} while((pointer = pointer.getParent()) != null);
+		
+		if(pointer == null) {
+			pointer = this;
+		}
+		
+		pointer.variableMap.put(name, value);
+	}
+	
 	public void defineFunction(String name, Function function) {
 		this.functionMap.put(name, function);
 	}
