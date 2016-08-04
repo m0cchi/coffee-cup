@@ -3,9 +3,9 @@ package net.m0cchi.parser.lexical;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-public class StringLexicalAnalyser extends StreamLexicalAnalyzer {
+public class StringLexicalAnalyzer extends StreamLexicalAnalyzer {
 
-	public StringLexicalAnalyser(String str) {
+	public StringLexicalAnalyzer(String str) {
 		super(toInputStream(str));
 	}
 

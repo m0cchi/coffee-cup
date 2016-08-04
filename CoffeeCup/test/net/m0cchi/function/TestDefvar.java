@@ -5,7 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import net.m0cchi.parser.lexical.StringLexicalAnalyser;
+import net.m0cchi.parser.lexical.StringLexicalAnalyzer;
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
 import net.m0cchi.parser.syntax.SyntaxAnalyzer;
 import net.m0cchi.value.AtomicType;
@@ -21,7 +21,7 @@ public class TestDefvar {
 	@Test
 	public void test() {
 
-		StringLexicalAnalyser lexicalAnalyser = new StringLexicalAnalyser("(defvar name 100)");
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(defvar name 100)");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Value ret = ((SList) syntaxAnalyzer.parse()).toArray()[0];
 		Environment environment = new Environment();
