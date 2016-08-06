@@ -1,9 +1,9 @@
 package net.m0cchi.value;
 
-public abstract class Value {
-	protected AtomicType type;
-
-	public AtomicType getType() {
-		return type;
+public abstract class Value<T> extends Element {
+	protected T value;
+	
+	public T getNativeValue() {
+		return value;
 	}
 }

@@ -3,11 +3,10 @@ package net.m0cchi.value;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SList extends Value {
-	private List<Value> list;
+public class SList extends Value<List<Element>> {
 
-	public SList(List<Value> list) {
-		this.list = list;
+	public SList(List<Element> list) {
+		this.value = list;
 		this.type = AtomicType.SLIST;
 	}
 
@@ -16,20 +15,21 @@ public class SList extends Value {
 	}
 
 	public boolean isEmpty() {
-		return list.isEmpty();
+		return value.isEmpty();
 	}
 
-	public Value[] toArray() {
-		return list.toArray(new Value[0]);
+	public Element[] toArray() {
+		return value.toArray(new Value[0]);
 	}
 
-	public Value get(int index) {
-		return list.get(index);
+	public Element get(int index) {
+		return value.get(index);
 	}
 
 	public SList cdr() {
-		List<Value> list = new ArrayList<>(this.list);
+		List<Element> list = new ArrayList<>(this.value);
 		list.remove(0);
 		return new SList(list);
 	}
+
 }

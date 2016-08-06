@@ -2,6 +2,7 @@ package net.m0cchi.parser.semantic;
 
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.AtomicValue;
+import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
 import net.m0cchi.value.Function;
 import net.m0cchi.value.Macro;
@@ -19,18 +20,18 @@ public class SemanticAnalyzer {
 		this(new Environment());
 	}
 
-	public Value evaluate(SList value) {
+	public Element evaluate(SList value) {
 		AtomicValue head = (AtomicValue) value.get(0);
 		Function function = environment.getFunction(head.getNativeValue());
-		Value ret = function.invoke(this.environment, value.cdr().toArray());
+		Element ret = function.invoke(this.environment, value.cdr().toArray());
 		if (function instanceof Macro) {
 			ret = evaluate(ret);
 		}
 		return ret;
 	}
 
-	public Value evaluate(Value value) {
-		Value ret = null;
+	public Element evaluate(Element value) {
+		Element ret = null;
 		AtomicType type = value.getType();
 		switch (type) {
 		case SLIST:

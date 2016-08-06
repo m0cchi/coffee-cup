@@ -6,8 +6,8 @@ import java.util.List;
 import net.m0cchi.parser.lexical.AbstractLexicalAnalyzer;
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.AtomicValue;
+import net.m0cchi.value.Element;
 import net.m0cchi.value.SList;
-import net.m0cchi.value.Value;
 
 public class ListSyntaxAnalyzer extends SyntaxAnalyzer {
 
@@ -15,13 +15,13 @@ public class ListSyntaxAnalyzer extends SyntaxAnalyzer {
 		super(lexicalAnalyzer);
 	}
 
-	public static boolean isFirst(Value value) {
+	public static boolean isFirst(Element value) {
 		return value.getType() == AtomicType.LEFT_PARENTHESIS;
 	}
 	
-	public Value parse() {
-		AtomicValue value = lexicalAnalyzer.take();
-		List<Value> list = new ArrayList<>();
+	public Element parse() {
+		Element value = lexicalAnalyzer.take();
+		List<Element> list = new ArrayList<>();
 		
 		if(!isFirst(value)) {
 			// TODO: throw exception

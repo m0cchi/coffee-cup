@@ -9,7 +9,7 @@ public abstract class Macro extends Function {
 	}
 
 	@Override
-	public void defineVariable(Environment environment, String name, Value value) {
+	public void defineVariable(Environment environment, String name, Element value) {
 		environment.defineVariable(name, value);
 	}
 

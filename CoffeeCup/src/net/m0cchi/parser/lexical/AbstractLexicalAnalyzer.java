@@ -9,6 +9,7 @@ import java.util.Map;
 
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.AtomicValue;
+import net.m0cchi.value.Element;
 
 public abstract class AbstractLexicalAnalyzer {
 	/**
@@ -21,7 +22,7 @@ public abstract class AbstractLexicalAnalyzer {
 	private final static List<Integer> SKIP_LIST = new ArrayList<>();
 	private final static List<Integer> DIGIT_LIST = new ArrayList<>();
 	private final static List<Integer> LETTER_LIST = new ArrayList<>();
-	private final LinkedList<AtomicValue> stack;
+	private final LinkedList<Element> stack;
 
 	{
 		// initializer
@@ -77,7 +78,7 @@ public abstract class AbstractLexicalAnalyzer {
 	 * 
 	 * @return AtomicValue
 	 */
-	public AtomicValue take() {
+	public Element take() {
 		if (this.stack.size() > 0) {
 			return this.stack.pop();
 		}
@@ -88,7 +89,7 @@ public abstract class AbstractLexicalAnalyzer {
 	 * 
 	 * @param value
 	 */
-	public void push(AtomicValue value) {
+	public void push(Element value) {
 		this.stack.push(value);
 	}
 
