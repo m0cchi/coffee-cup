@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.m0cchi.parser.lexical.AbstractLexicalAnalyzer;
 import net.m0cchi.value.AtomicType;
-import net.m0cchi.value.AtomicValue;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.SList;
 

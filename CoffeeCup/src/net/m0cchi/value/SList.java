@@ -6,8 +6,7 @@ import java.util.List;
 public class SList extends Value<List<Element>> {
 
 	public SList(List<Element> list) {
-		this.value = list;
-		this.type = AtomicType.SLIST;
+		super(AtomicType.SLIST, list);
 	}
 
 	public SList() {

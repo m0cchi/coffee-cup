@@ -1,7 +1,6 @@
 package net.m0cchi.parser.semantic;
 
 import net.m0cchi.value.AtomicType;
-import net.m0cchi.value.AtomicValue;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
 import net.m0cchi.value.Function;
@@ -21,7 +20,8 @@ public class SemanticAnalyzer {
 	}
 
 	public Element evaluate(SList value) {
-		AtomicValue head = (AtomicValue) value.get(0);
+		@SuppressWarnings("unchecked")
+		Value<String> head = (Value<String>) value.get(0);
 		Function function = environment.getFunction(head.getNativeValue());
 		Element ret = function.invoke(this.environment, value.cdr().toArray());
 		if (function instanceof Macro) {
@@ -43,7 +43,8 @@ public class SemanticAnalyzer {
 			}
 			break;
 		case SYMBOL:
-			String name = ((AtomicValue) value).getNativeValue();
+			@SuppressWarnings("unchecked")
+			String name = ((Value<String>) value).getNativeValue();
 			ret = environment.getValue(name);
 			break;
 		case QUOTE:

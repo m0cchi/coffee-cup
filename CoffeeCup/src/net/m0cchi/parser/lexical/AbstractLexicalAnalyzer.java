@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import net.m0cchi.value.AtomicType;
-import net.m0cchi.value.AtomicValue;
 import net.m0cchi.value.Element;
+import net.m0cchi.value.Value;
 
 public abstract class AbstractLexicalAnalyzer {
 	/**
@@ -74,9 +74,9 @@ public abstract class AbstractLexicalAnalyzer {
 	protected abstract void unread(int code);
 
 	/**
-	 * take a AtomicValue out of source code
+	 * take a Value out of source code
 	 * 
-	 * @return AtomicValue
+	 * @return Value
 	 */
 	public Element take() {
 		if (this.stack.size() > 0) {
@@ -84,7 +84,7 @@ public abstract class AbstractLexicalAnalyzer {
 		}
 		return parser();
 	}
-	
+
 	/**
 	 * 
 	 * @param value
@@ -93,10 +93,10 @@ public abstract class AbstractLexicalAnalyzer {
 		this.stack.push(value);
 	}
 
-	private AtomicValue parseDigit() {
+	private Element parseDigit() {
 		int dotCounter = 0;
 		int code;
-		AtomicValue value = null;
+		Element value = null;
 		StringBuilder sb = new StringBuilder();
 		while ((code = read()) != EOF) {
 			if (!(DIGIT_LIST.contains(code) || code == DOT)) {
@@ -106,22 +106,23 @@ public abstract class AbstractLexicalAnalyzer {
 
 			if (code == DOT && dotCounter++ == 1) {
 				// TODO: throw exception
+				value = new Value<String>(AtomicType.TERMINAL, sb.toString());
 				break;
 			}
 			sb.append((char) code);
 		}
 
-		if (dotCounter != 2) {
-			value = new AtomicValue(AtomicType.DIGIT, sb.toString());
-		} else {
-			value = new AtomicValue(AtomicType.TERMINAL, sb.toString());
+		if (dotCounter == 0) {
+			value = new Value<Integer>(AtomicType.DIGIT, Integer.parseInt(sb.toString()));
+		} else if (dotCounter == 1) {
+			value = new Value<Double>(AtomicType.DIGIT, Double.parseDouble(sb.toString()));
 		}
 
 		return value;
 	}
 
-	private AtomicValue parseSymbol() {
-		AtomicValue value;
+	private Element parseSymbol() {
+		Element value;
 		int code;
 		StringBuilder sb = new StringBuilder();
 		while ((code = read()) != EOF) {
@@ -131,38 +132,38 @@ public abstract class AbstractLexicalAnalyzer {
 			}
 			sb.append((char) code);
 		}
-		value = new AtomicValue(AtomicType.SYMBOL, sb.toString());
+		value = new Value<String>(AtomicType.SYMBOL, sb.toString());
 		return value;
 	}
 
-	private AtomicValue parseLetter(int period) {
-		AtomicValue value = null;
+	private Element parseLetter(int period) {
+		Element value = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int code;
-		baos.write(period); 
+		baos.write(period);
 		while (!((code = read()) == EOF || code == period)) {
-			baos.write(code); 
-		} 
-		baos.write(period); 
-		value = new AtomicValue(AtomicType.LETTER, baos.toString());
+			baos.write(code);
+		}
+		baos.write(period);
+		value = new Value<String>(AtomicType.LETTER, baos.toString());
 		return value;
 	}
-	
+
 	/**
 	 * source code parser
 	 * 
-	 * @return AtomicValue
+	 * @return Value
 	 */
-	private AtomicValue parser() {
+	private Element parser() {
 		int code;
-		AtomicValue value = null;
+		Element value = null;
 
 		while ((code = read()) != EOF) {
 
 			if (SKIP_LIST.contains(code)) {
 				continue;
 			} else if (SIGN_MAP.containsKey(code)) {
-				value = new AtomicValue(SIGN_MAP.get(code), null);
+				value = new Value<String>(SIGN_MAP.get(code), null);
 				break;
 			} else if (DIGIT_LIST.contains(code)) {
 				unread(code);
@@ -180,7 +181,7 @@ public abstract class AbstractLexicalAnalyzer {
 		}
 
 		if (code == EOF) {
-			value = new AtomicValue(AtomicType.TERMINAL, null);
+			value = new Value<String>(AtomicType.TERMINAL, null);
 		}
 
 		return value;
