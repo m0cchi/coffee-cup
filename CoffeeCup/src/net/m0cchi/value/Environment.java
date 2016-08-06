@@ -56,5 +56,10 @@ public class Environment {
 	public void setParent(Environment parent) {
 		this.parent = parent;
 	}
+	
+	public ClassLoader getClassLoader() {
+		// TODO: impl package
+		return Environment.class.getClassLoader();
+	}
 
 }
