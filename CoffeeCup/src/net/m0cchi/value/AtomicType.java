@@ -10,5 +10,6 @@ public enum AtomicType {
 	LETTER,
 	SLIST,
 	FUNCTION,
-	MACRO
+	MACRO,
+	JAVA
 }
