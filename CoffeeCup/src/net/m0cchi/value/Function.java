@@ -6,11 +6,15 @@ public abstract class Function extends Element {
 	private final static String[] NONE_ARGS = {};
 	private String[] args;
 
-	public Function() {
+	{
+		init();
 		this.type = AtomicType.FUNCTION;
-		this.args = NONE_ARGS;
 	}
 
+	protected final void init() {
+		this.args = NONE_ARGS;
+	}
+	
 	public abstract Element invoke(Environment environment);
 
 	public void defineVariable(Environment environment, String name, Element value) {

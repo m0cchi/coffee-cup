@@ -3,8 +3,8 @@ package net.m0cchi.value;
 
 public abstract class Macro extends Function {
 
-	public Macro() {
-		super();
+	{
+		init();
 		this.type = AtomicType.MACRO;
 	}
 

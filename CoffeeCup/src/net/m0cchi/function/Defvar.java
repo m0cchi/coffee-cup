@@ -10,7 +10,6 @@ import net.m0cchi.value.Value;
 public class Defvar extends Macro {
 
 	public Defvar() {
-		super();
 		setArgs(new String[] { "def name", "def value" });
 	}
 
