@@ -30,6 +30,7 @@ public class SemanticAnalyzer {
 		return ret;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Element evaluate(Element value) {
 		Element ret = null;
 		AtomicType type = value.getType();
@@ -43,13 +44,11 @@ public class SemanticAnalyzer {
 			}
 			break;
 		case SYMBOL:
-			@SuppressWarnings("unchecked")
 			String name = ((Value<String>) value).getNativeValue();
 			ret = environment.getValue(name);
 			break;
 		case QUOTE:
-			SList quote = (SList) value;
-			ret = quote.get(0);
+			ret = ((Value<Element>) value).getNativeValue();
 			break;
 		default:
 			ret = value;
