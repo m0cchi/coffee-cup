@@ -20,7 +20,7 @@ public class Defvar extends Macro {
 		@SuppressWarnings("unchecked")
 		Value<String> value = (Value<String>) environment.getValue(getArgs()[1]);
 		Environment parent = environment.getParent();
-		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer();
+		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		parent.defineVariable(name.getNativeValue(), semanticAnalyzer.evaluate(value));
 		return new SList();
 	}
