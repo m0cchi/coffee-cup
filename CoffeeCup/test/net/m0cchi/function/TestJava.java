@@ -4,8 +4,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
-import net.m0cchi.function.Java.Invoke;
-import net.m0cchi.function.Java.New;
+import net.m0cchi.function.java.Invoke;
+import net.m0cchi.function.java.New;
 import net.m0cchi.parser.lexical.StringLexicalAnalyzer;
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
 import net.m0cchi.parser.syntax.SyntaxAnalyzer;
@@ -153,7 +153,7 @@ public class TestJava {
 		Element[] values = ((SList) ret).toArray();
 		semanticAnalyzer.evaluate(values[0]);
 	}
-	
+
 	@Test
 	public void testNull() {
 		Environment environment = new Environment();

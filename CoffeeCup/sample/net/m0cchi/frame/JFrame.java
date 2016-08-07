@@ -1,8 +1,8 @@
 package net.m0cchi.frame;
 
 import net.m0cchi.function.Defvar;
-import net.m0cchi.function.Java.Invoke;
-import net.m0cchi.function.Java.New;
+import net.m0cchi.function.java.Invoke;
+import net.m0cchi.function.java.New;
 import net.m0cchi.parser.lexical.StringLexicalAnalyzer;
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
 import net.m0cchi.parser.syntax.SyntaxAnalyzer;
@@ -19,8 +19,7 @@ public class JFrame {
 		environment.defineFunction("defvar", new Defvar());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(defvar frame (.new javax.swing.JFrame (\"Hello\")))"
-				+ "(. setVisible frame (T))"
-				+ "(. setSize frame (400 600))");
+				+ "(. setVisible frame (T))" + "(. setSize frame (400 600))");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
