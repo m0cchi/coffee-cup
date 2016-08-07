@@ -39,7 +39,7 @@ public abstract class Function extends Element {
 			if (arg.equals(REST)) {
 				List<Element> list = new ArrayList<>();
 				element = new SList(list);
-				while (parametor.hasNext()) {
+				while (argument.hasNext()) {
 					list.add(argument.next());
 				}
 			} else {

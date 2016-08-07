@@ -17,7 +17,7 @@ import net.m0cchi.value.Value;
 public class Invoke extends Macro {
 
 	public Invoke() {
-		setArgs(new String[] { "java method name", "java instanse", "java args" });
+		setArgs(new String[] { "java method name", "java instanse", REST, "java args" });
 	}
 
 	@Override
