@@ -15,6 +15,36 @@ import net.m0cchi.value.Value;
 
 public class Java {
 
+	public static Method findMethod(Class<?> clazz, String name, Class<?>[] argsType) {
+		if(clazz == null) return null;
+		Method[] methods = clazz.getDeclaredMethods();
+		
+		List<Method> candidates = new ArrayList<>();
+		for (Method method : methods) {
+			Class<?>[] parameterTypes = method.getParameterTypes();
+			matching: {
+				if (method.getName().equals(name) && parameterTypes.length == argsType.length) {
+					boolean isAssignable = false;
+					for (int i = 0; i < parameterTypes.length; i++) {
+						if (!(parameterTypes[i].equals(argsType[i]) || !(isAssignable |= argsType[i].isAssignableFrom(parameterTypes[i])))) {
+							break matching;
+						}
+					}
+					if (!isAssignable) {
+						return method;
+					} else {
+						candidates.add(method);
+					}
+				}
+			}
+		}
+		if (!candidates.isEmpty()) {
+			return candidates.get(0);
+		}
+
+		return findMethod(clazz.getSuperclass(), name, argsType);
+	}
+
 	public static class New extends Macro {
 		public New() {
 			setArgs(new String[] { "java clazz", "java args" });
@@ -63,7 +93,7 @@ public class Java {
 			Value<String> name = (Value<String>) environment.getValue(getArgs()[0]);
 			Value<?> instance = (Value<?>) environment.getValue(getArgs()[1]);
 			instance = (Value<?>) semanticAnalyzer.evaluate(instance);
-			
+
 			SList args = (SList) environment.getValue(getArgs()[2]);
 			Element ret = null;
 			List<Class<?>> argsType = new ArrayList<>();
@@ -76,7 +106,9 @@ public class Java {
 
 			try {
 				Class<?> clazz = instance.getNativeValue().getClass();
-				Method method = clazz.getMethod(name.getNativeValue(), argsType.toArray(new Class[0]));
+				Method method = Java.findMethod(clazz, name.getNativeValue(), argsType.toArray(new Class[0]));
+				// clazz.getMethod(name.getNativeValue(), argsType.toArray(new
+				// Class[0]));
 				Object object = method.invoke(instance.getNativeValue(), argsList.toArray(new Object[0]));
 				if (object instanceof Element) {
 					ret = (Element) object;
