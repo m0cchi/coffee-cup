@@ -11,5 +11,6 @@ public enum AtomicType {
 	SLIST,
 	FUNCTION,
 	MACRO,
-	JAVA
+	JAVA,
+	BOOL
 }

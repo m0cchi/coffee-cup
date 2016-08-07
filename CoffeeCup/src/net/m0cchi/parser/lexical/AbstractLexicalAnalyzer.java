@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.swing.internal.plaf.basic.resources.basic;
+
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Value;
@@ -22,6 +24,7 @@ public abstract class AbstractLexicalAnalyzer {
 	private final static List<Integer> SKIP_LIST = new ArrayList<>();
 	private final static List<Integer> DIGIT_LIST = new ArrayList<>();
 	private final static List<Integer> LETTER_LIST = new ArrayList<>();
+	private final static List<Integer> BOOL_LIST = new ArrayList<>();
 	private final LinkedList<Element> stack;
 
 	{
@@ -55,6 +58,8 @@ public abstract class AbstractLexicalAnalyzer {
 		for (String code : "'\"".split("")) {
 			LETTER_LIST.add(toAsciiCode(code));
 		}
+		// init bool
+		BOOL_LIST.add(toAsciiCode("T"));
 	}
 
 	/**
@@ -171,6 +176,9 @@ public abstract class AbstractLexicalAnalyzer {
 				break;
 			} else if (LETTER_LIST.contains(code)) {
 				value = parseLetter(code);
+				break;
+			} else if (BOOL_LIST.contains(code)) {
+				value = new Value<Boolean>(AtomicType.BOOL, true);
 				break;
 			} else {
 				unread(code);
