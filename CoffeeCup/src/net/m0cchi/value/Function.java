@@ -23,13 +23,13 @@ public abstract class Function extends Element {
 
 	public abstract Element invoke(Environment environment);
 
-	public void defineVariable(Environment environment, String name, Element value) {
+	protected void defineVariable(Environment environment, String name, Element value) {
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		value = semanticAnalyzer.evaluate(value);
 		environment.defineVariable(name, value);
 	}
 
-	public void defineVariable(Environment environment, String name, List<Element> list) {
+	protected void defineVariable(Environment environment, String name, List<Element> list) {
 		List<Element> args = new ArrayList<>();
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		for (Element arg : list) {
