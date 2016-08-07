@@ -29,25 +29,33 @@ public abstract class Function extends Element {
 		environment.defineVariable(name, value);
 	}
 
+	public void defineVariable(Environment environment, String name, List<Element> list) {
+		List<Element> args = new ArrayList<>();
+		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
+		for (Element arg : list) {
+			args.add(semanticAnalyzer.evaluate(arg));
+		}
+		environment.defineVariable(name, new SList(args));
+	}
+
 	public Element invoke(Environment environment, Element[] args) {
 		Environment env = new Environment(environment);
 		Iterator<String> parametor = Arrays.asList(this.args).iterator();
 		Iterator<Element> argument = Arrays.asList(args).iterator();
 		while (parametor.hasNext()) {
 			String arg = parametor.next();
-			Element element = null;
 			if (arg.equals(REST)) {
 				arg = parametor.next();
 				List<Element> list = new ArrayList<>();
-				element = new SList(list);
 				while (argument.hasNext()) {
 					list.add(argument.next());
 				}
+				defineVariable(env, arg, list);
 			} else {
-				element = argument.next();
+				Element element = argument.next();
+				defineVariable(env, arg, element);
 			}
 
-			defineVariable(env, arg, element);
 		}
 		return invoke(env);
 	}
