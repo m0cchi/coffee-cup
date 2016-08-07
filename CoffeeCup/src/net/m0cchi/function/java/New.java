@@ -36,7 +36,9 @@ public class New extends Macro {
 		}
 
 		try {
-			Class<?> clazz = Class.forName(name.getNativeValue(), true, environment.getClassLoader());
+			Class<?> clazz = environment.getClassLoader().loadClass(name.getNativeValue());
+			// Class.forName(name.getNativeValue(), true,
+			// environment.getClassLoader());
 			Constructor<?> constructor = clazz.getConstructor(argsType.toArray(new Class[0]));
 
 			Object value = constructor.newInstance(argsList.toArray(new Object[0]));

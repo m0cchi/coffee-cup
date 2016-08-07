@@ -4,6 +4,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
+import net.m0cchi.function.java.AppendLoadPath;
 import net.m0cchi.function.java.Invoke;
 import net.m0cchi.function.java.New;
 import net.m0cchi.parser.lexical.StringLexicalAnalyzer;
@@ -169,5 +170,29 @@ public class TestJava {
 		@SuppressWarnings("unchecked")
 		Value<String> object = (Value<String>) result;
 		assertThat(object.getNativeValue(), is(equalTo("null")));
+	}
+
+	@Test
+	public void testAppendLoadPath() {
+		Environment environment = new Environment();
+		environment.defineFunction(".", new Invoke());
+		environment.defineFunction(".new", new New());
+		environment.defineFunction("append-loadpath", new AppendLoadPath());
+
+		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(append-loadpath \"test-data/JavaLibrary.jar\")"
+				+ "(. toString (.new JavaLibrary ()) ())");
+		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
+		Element ret = syntaxAnalyzer.parse();
+		Element[] values = ((SList) ret).toArray();
+		
+		semanticAnalyzer.evaluate(values[0]);
+		
+		@SuppressWarnings("unchecked")
+		Value<String> result = (Value<String>) semanticAnalyzer.evaluate(values[1]);
+
+		assertThat(result.getNativeValue(), is(equalTo("invoked")));
+		
+		
 	}
 }
