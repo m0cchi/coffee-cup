@@ -18,8 +18,8 @@ public class JFrame {
 		environment.defineFunction(".new", new New());
 		environment.defineFunction("defvar", new Defvar());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
-		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(defvar frame (.new javax.swing.JFrame (\"Hello\")))"
-				+ "(. setVisible frame (T))" + "(. setSize frame (400 600))");
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(defvar frame (.new javax.swing.JFrame \"Hello\"))"
+				+ "(. setVisible frame T)" + "(. setSize frame 400 600)");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
