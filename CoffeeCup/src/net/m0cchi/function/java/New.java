@@ -15,7 +15,7 @@ import net.m0cchi.value.Value;
 
 public class New extends Macro {
 	public New() {
-		setArgs(new String[] { "java clazz", "java args" });
+		setArgs(new String[] { "java clazz", REST, "java args" });
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class New extends Macro {
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		@SuppressWarnings("unchecked")
 		Value<String> name = (Value<String>) environment.getValue(getArgs()[0]);
-		SList args = (SList) environment.getValue(getArgs()[1]);
+		SList args = (SList) environment.getValue(getArgs()[2]);
 		Element ret = null;
 
 		List<Class<?>> argsType = new ArrayList<>();

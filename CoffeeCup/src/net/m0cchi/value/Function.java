@@ -37,6 +37,7 @@ public abstract class Function extends Element {
 			String arg = parametor.next();
 			Element element = null;
 			if (arg.equals(REST)) {
+				arg = parametor.next();
 				List<Element> list = new ArrayList<>();
 				element = new SList(list);
 				while (argument.hasNext()) {

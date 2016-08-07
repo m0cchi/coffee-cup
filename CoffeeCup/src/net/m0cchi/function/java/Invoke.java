@@ -28,7 +28,7 @@ public class Invoke extends Macro {
 		Value<?> instance = (Value<?>) environment.getValue(getArgs()[1]);
 		instance = (Value<?>) semanticAnalyzer.evaluate(instance);
 
-		SList args = (SList) environment.getValue(getArgs()[2]);
+		SList args = (SList) environment.getValue(getArgs()[3]);
 		Element ret = null;
 		List<Class<?>> argsType = new ArrayList<>();
 		List<Object> argsList = new ArrayList<>();

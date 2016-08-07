@@ -26,7 +26,7 @@ public class TestJava {
 		environment.defineFunction(".new", new New());
 
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
-		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(.new java.lang.String (\"hello\"))");
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(.new java.lang.String \"hello\")");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -43,7 +43,7 @@ public class TestJava {
 		environment.defineFunction(".", new Invoke());
 		environment.defineFunction(".new", new New());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
-		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. toString (.new java.lang.String (\"hello\")) ()");
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. toString (.new java.lang.String \"hello\"))");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -60,7 +60,7 @@ public class TestJava {
 		environment.defineFunction(".", new Invoke());
 		environment.defineFunction(".new", new New());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
-		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. toString 100 ()");
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. toString 100)");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -78,7 +78,7 @@ public class TestJava {
 		environment.defineFunction(".new", new New());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer(
-				"(. hoge (.new net.m0cchi.function.data.Super ()) ((.new net.m0cchi.function.data.Sub ())))");
+				"(. hoge (.new net.m0cchi.function.data.Super) (.new net.m0cchi.function.data.Sub))");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -95,7 +95,7 @@ public class TestJava {
 		environment.defineFunction(".", new Invoke());
 		environment.defineFunction(".new", new New());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
-		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. override (.new net.m0cchi.function.data.Sub ()) ())");
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. override (.new net.m0cchi.function.data.Sub))");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -113,7 +113,7 @@ public class TestJava {
 		environment.defineFunction(".new", new New());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer(
-				"(. overload (.new net.m0cchi.function.data.Sub ()) ((.new net.m0cchi.function.data.Sub ())))");
+				"(. overload (.new net.m0cchi.function.data.Sub) (.new net.m0cchi.function.data.Sub))");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -131,7 +131,7 @@ public class TestJava {
 		environment.defineFunction(".new", new New());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer(
-				"(. overload (.new net.m0cchi.function.data.Sub ()) ((.new net.m0cchi.function.data.Super ())))");
+				"(. overload (.new net.m0cchi.function.data.Sub) (.new net.m0cchi.function.data.Super))");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -148,7 +148,7 @@ public class TestJava {
 		environment.defineFunction(".", new Invoke());
 		environment.defineFunction(".new", new New());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
-		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. hige (.new net.m0cchi.function.data.Sub ()) (12 34))");
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. hige (.new net.m0cchi.function.data.Sub) 12 34)");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -161,7 +161,7 @@ public class TestJava {
 		environment.defineFunction(".", new Invoke());
 		environment.defineFunction(".new", new New());
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
-		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. notNull (.new net.m0cchi.function.data.Sub ()) (nil))");
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. notNull (.new net.m0cchi.function.data.Sub) nil)");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -181,7 +181,7 @@ public class TestJava {
 
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(append-loadpath \"test-data/JavaLibrary.jar\")"
-				+ "(. toString (.new JavaLibrary ()) ())");
+				+ "(. toString (.new JavaLibrary))");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
