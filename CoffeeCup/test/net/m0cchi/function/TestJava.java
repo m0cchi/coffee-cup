@@ -152,6 +152,22 @@ public class TestJava {
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
 		semanticAnalyzer.evaluate(values[0]);
-
+	}
+	
+	@Test
+	public void testNull() {
+		Environment environment = new Environment();
+		environment.defineFunction(".", new Invoke());
+		environment.defineFunction(".new", new New());
+		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(. notNull (.new net.m0cchi.function.data.Sub ()) (nil))");
+		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
+		Element ret = syntaxAnalyzer.parse();
+		Element[] values = ((SList) ret).toArray();
+		Element result = semanticAnalyzer.evaluate(values[0]);
+		assertSame(AtomicType.JAVA, result.getType());
+		@SuppressWarnings("unchecked")
+		Value<String> object = (Value<String>) result;
+		assertThat(object.getNativeValue(), is(equalTo("null")));
 	}
 }

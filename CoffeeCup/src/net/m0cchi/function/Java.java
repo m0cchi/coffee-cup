@@ -10,15 +10,18 @@ import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
 import net.m0cchi.value.Macro;
+import net.m0cchi.value.NULL;
+import net.m0cchi.value.NULL.NIL;
 import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
 public class Java {
 
 	public static Method findMethod(Class<?> clazz, String name, Class<?>[] argsType) {
-		if(clazz == null) return null;
+		if (clazz == null)
+			return null;
 		Method[] methods = clazz.getDeclaredMethods();
-		
+
 		List<Method> candidates = new ArrayList<>();
 		for (Method method : methods) {
 			Class<?>[] parameterTypes = method.getParameterTypes();
@@ -26,6 +29,9 @@ public class Java {
 				if (method.getName().equals(name) && parameterTypes.length == argsType.length) {
 					boolean isAssignable = false;
 					for (int i = 0; i < parameterTypes.length; i++) {
+						if (argsType[i] == NULL.class) {
+							continue;
+						}
 						if (!(parameterTypes[i].equals(argsType[i]) || !(isAssignable |= argsType[i].isAssignableFrom(parameterTypes[i])))) {
 							break matching;
 						}
@@ -62,8 +68,9 @@ public class Java {
 			List<Object> argsList = new ArrayList<>();
 			for (Element element : args.getNativeValue()) {
 				Value<?> value = (Value<?>) semanticAnalyzer.evaluate(element);
-				argsType.add(value.getNativeValue().getClass());
-				argsList.add(value.getNativeValue());
+				Object object = value.getNativeValue();
+				argsType.add(object.getClass());
+				argsList.add((object instanceof NULL) ? null : object);
 			}
 
 			try {
@@ -100,8 +107,9 @@ public class Java {
 			List<Object> argsList = new ArrayList<>();
 			for (Element element : args.getNativeValue()) {
 				Value<?> value = (Value<?>) semanticAnalyzer.evaluate(element);
-				argsType.add(value.getNativeValue().getClass());
-				argsList.add(value.getNativeValue());
+				Object object = value.getNativeValue();
+				argsType.add(object.getClass());
+				argsList.add((object instanceof NULL) ? null : object);
 			}
 
 			try {
@@ -111,10 +119,10 @@ public class Java {
 				Object object = method.invoke(instance.getNativeValue(), argsList.toArray(new Object[0]));
 				if (object instanceof Element) {
 					ret = (Element) object;
-				} else if(object != null){
+				} else if (object != null) {
 					ret = new Value<Object>(AtomicType.JAVA, object);
 				} else {
-					ret = new SList();
+					ret = new NIL();
 				}
 
 			} catch (Throwable e) {

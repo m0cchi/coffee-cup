@@ -3,6 +3,8 @@ package net.m0cchi.value;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.m0cchi.value.NULL.NIL;
+
 public class Environment {
 	private final Map<String, Element> variableMap;
 	private final Map<String, Function> functionMap;
@@ -11,6 +13,7 @@ public class Environment {
 	public Environment() {
 		variableMap = new HashMap<>();
 		functionMap = new HashMap<>();
+		variableMap.put("nil", new NIL());
 	}
 
 	public Environment(Environment environment) {
