@@ -145,11 +145,9 @@ public abstract class AbstractLexicalAnalyzer {
 		Element value = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int code;
-		baos.write(period);
 		while (!((code = read()) == EOF || code == period)) {
 			baos.write(code);
 		}
-		baos.write(period);
 		value = new Value<String>(AtomicType.LETTER, baos.toString());
 		return value;
 	}

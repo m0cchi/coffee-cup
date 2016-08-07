@@ -33,7 +33,7 @@ public class TestJava {
 		assertSame(AtomicType.JAVA, result.getType());
 		@SuppressWarnings("unchecked")
 		Value<String> object = (Value<String>) result;
-		assertThat(object.getNativeValue(), is(equalTo("\"hello\"")));
+		assertThat(object.getNativeValue(), is(equalTo("hello")));
 	}
 
 	@Test
@@ -50,7 +50,7 @@ public class TestJava {
 		assertSame(AtomicType.JAVA, result.getType());
 		@SuppressWarnings("unchecked")
 		Value<String> object = (Value<String>) result;
-		assertThat(object.getNativeValue(), is(equalTo("\"hello\"")));
+		assertThat(object.getNativeValue(), is(equalTo("hello")));
 	}
 
 	@Test
@@ -151,10 +151,7 @@ public class TestJava {
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
-		try {
-			semanticAnalyzer.evaluate(values[0]);
-		} catch (java.lang.NullPointerException e) {
-			// TODO: other exception
-		}
+		semanticAnalyzer.evaluate(values[0]);
+
 	}
 }
