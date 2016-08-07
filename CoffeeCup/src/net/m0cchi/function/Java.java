@@ -112,8 +112,10 @@ public class Java {
 				Object object = method.invoke(instance.getNativeValue(), argsList.toArray(new Object[0]));
 				if (object instanceof Element) {
 					ret = (Element) object;
-				} else {
+				} else if(object != null){
 					ret = new Value<Object>(AtomicType.JAVA, object);
+				} else {
+					ret = new SList();
 				}
 
 			} catch (Throwable e) {
