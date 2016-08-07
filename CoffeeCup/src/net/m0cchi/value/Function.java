@@ -1,9 +1,15 @@
 package net.m0cchi.value;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
 
 public abstract class Function extends Element {
 	private final static String[] NONE_ARGS = {};
+	protected final static String REST = "&rest";
 	private String[] args;
 
 	{
@@ -14,7 +20,7 @@ public abstract class Function extends Element {
 	protected final void init() {
 		this.args = NONE_ARGS;
 	}
-	
+
 	public abstract Element invoke(Environment environment);
 
 	public void defineVariable(Environment environment, String name, Element value) {
@@ -24,10 +30,23 @@ public abstract class Function extends Element {
 	}
 
 	public Element invoke(Environment environment, Element[] args) {
-		int point = 0;
 		Environment env = new Environment(environment);
-		for (String arg : this.args) {
-			defineVariable(env, arg, args[point++]);
+		Iterator<String> parametor = Arrays.asList(this.args).iterator();
+		Iterator<Element> argument = Arrays.asList(args).iterator();
+		while (parametor.hasNext()) {
+			String arg = parametor.next();
+			Element element = null;
+			if (arg.equals(REST)) {
+				List<Element> list = new ArrayList<>();
+				element = new SList(list);
+				while (parametor.hasNext()) {
+					list.add(argument.next());
+				}
+			} else {
+				element = argument.next();
+			}
+
+			defineVariable(env, arg, element);
 		}
 		return invoke(env);
 	}
