@@ -12,6 +12,7 @@ import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
 public class Defun extends Macro {
+	private static final long serialVersionUID = 108758569589978951L;
 
 	public Defun() {
 		setArgs(new String[] { "defun name", "defun args", REST, "defun body" });
@@ -25,6 +26,8 @@ public class Defun extends Macro {
 		final Element[] body = ((SList) environment.getValue(getArgs()[3])).toArray();
 		@SuppressWarnings({ "unchecked" })
 		Function function = new Function() {
+			private static final long serialVersionUID = 1L;
+
 			{
 				List<String> argsList = new ArrayList<>();
 				for (Element arg : args.toArray()) {

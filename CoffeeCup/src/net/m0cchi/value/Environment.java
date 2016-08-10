@@ -1,12 +1,14 @@
 package net.m0cchi.value;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.m0cchi.value.NULL.NIL;
 
-public class Environment {
+public class Environment implements Serializable {
+	private static final long serialVersionUID = -586360650485649973L;
 	protected static final Map<String, Environment> PACKAGES = new ConcurrentHashMap<>();
 	private Map<String, Element> variableMap;
 	private Map<String, Function> functionMap;
@@ -22,7 +24,7 @@ public class Environment {
 		this();
 		this.parent = environment;
 	}
-	
+
 	public static boolean hasPackage(String name) {
 		return PACKAGES.containsKey(name);
 	}
@@ -30,11 +32,11 @@ public class Environment {
 	public static void addEnvironment(String name, Environment environment) {
 		PACKAGES.putIfAbsent(name, environment);
 	}
-	
+
 	public void naming(String name) {
 		PACKAGES.putIfAbsent(name, this);
 	}
-	
+
 	public void load(String name) {
 		Environment environment = PACKAGES.get(name);
 		this.variableMap = environment.variableMap;
@@ -80,7 +82,7 @@ public class Environment {
 	public void setParent(Environment parent) {
 		this.parent = parent;
 	}
-	
+
 	public ClassLoader getClassLoader() {
 		// TODO: impl package
 		return Environment.class.getClassLoader();

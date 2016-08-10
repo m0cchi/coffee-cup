@@ -12,6 +12,7 @@ import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
 public class AppendLoadPath extends Function {
+	private static final long serialVersionUID = -7304075780212158998L;
 
 	public AppendLoadPath() {
 		setArgs(new String[] { "java path" });

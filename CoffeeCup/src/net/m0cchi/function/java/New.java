@@ -14,6 +14,8 @@ import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
 public class New extends Macro {
+	private static final long serialVersionUID = 6821382750912294248L;
+
 	public New() {
 		setArgs(new String[] { "java clazz", REST, "java args" });
 	}

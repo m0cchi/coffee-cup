@@ -1,5 +1,6 @@
 package net.m0cchi.value;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -7,7 +8,8 @@ import java.util.List;
 
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
 
-public abstract class Function extends Element {
+public abstract class Function extends Element implements Serializable {
+	private static final long serialVersionUID = -6360469178584951813L;
 	private final static String[] NONE_ARGS = {};
 	protected final static String REST = "&rest";
 	private String[] args;

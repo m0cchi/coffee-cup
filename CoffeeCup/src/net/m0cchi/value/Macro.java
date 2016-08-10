@@ -3,6 +3,7 @@ package net.m0cchi.value;
 import java.util.List;
 
 public abstract class Macro extends Function {
+	private static final long serialVersionUID = -2698046769066538833L;
 
 	{
 		init();

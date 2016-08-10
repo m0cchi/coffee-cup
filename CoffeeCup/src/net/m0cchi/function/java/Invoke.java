@@ -15,6 +15,7 @@ import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
 public class Invoke extends Macro {
+	private static final long serialVersionUID = -2285797109827350985L;
 
 	public Invoke() {
 		setArgs(new String[] { "java method name", "java instanse", REST, "java args" });

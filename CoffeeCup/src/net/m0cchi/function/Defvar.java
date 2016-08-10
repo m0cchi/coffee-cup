@@ -8,6 +8,7 @@ import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
 public class Defvar extends Macro {
+	private static final long serialVersionUID = -1571318218506031859L;
 
 	public Defvar() {
 		setArgs(new String[] { "def name", "def value" });

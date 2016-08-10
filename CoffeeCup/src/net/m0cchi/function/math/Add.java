@@ -11,6 +11,7 @@ import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
 public class Add extends Function {
+	private static final long serialVersionUID = 7568330897604347747L;
 
 	public Add() {
 		setArgs(new String[] { REST, "add number" });

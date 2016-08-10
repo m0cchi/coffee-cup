@@ -7,6 +7,7 @@ import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
 public class InPackage extends Function {
+	private static final long serialVersionUID = -6716392359470729387L;
 
 	public InPackage() {
 		setArgs(new String[] { "in-package name" });

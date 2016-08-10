@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SList extends Value<List<Element>> {
+	private static final long serialVersionUID = -1075335927989158821L;
 
 	public SList(List<Element> list) {
 		super(AtomicType.SLIST, list);
