@@ -8,7 +8,7 @@ import net.m0cchi.value.Macro;
 import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
-public class SemanticAnalyzer {
+public class SemanticAnalyzer implements ISemanticAnalyzer {
 	private Environment environment;
 
 	public SemanticAnalyzer(Environment environment) {
