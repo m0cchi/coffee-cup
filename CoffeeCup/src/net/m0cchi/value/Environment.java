@@ -2,12 +2,14 @@ package net.m0cchi.value;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import net.m0cchi.value.NULL.NIL;
 
 public class Environment {
-	private final Map<String, Element> variableMap;
-	private final Map<String, Function> functionMap;
+	protected static final Map<String, Environment> PACKAGES = new ConcurrentHashMap<>();
+	private Map<String, Element> variableMap;
+	private Map<String, Function> functionMap;
 	private Environment parent;
 
 	public Environment() {
@@ -19,6 +21,25 @@ public class Environment {
 	public Environment(Environment environment) {
 		this();
 		this.parent = environment;
+	}
+	
+	public static boolean hasPackage(String name) {
+		return PACKAGES.containsKey(name);
+	}
+
+	public static void addEnvironment(String name, Environment environment) {
+		PACKAGES.putIfAbsent(name, environment);
+	}
+	
+	public void naming(String name) {
+		PACKAGES.putIfAbsent(name, this);
+	}
+	
+	public void load(String name) {
+		Environment environment = PACKAGES.get(name);
+		this.variableMap = environment.variableMap;
+		this.functionMap = environment.functionMap;
+		this.parent = environment.parent;
 	}
 
 	public void defineVariable(String name, Element element) {
