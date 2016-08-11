@@ -24,12 +24,17 @@ public class Program implements Runnable {
 
 	public Program(File file) throws FileNotFoundException {
 		this();
-		init(new StreamLexicalAnalyzer(new FileInputStream(file)));
+		init(file);
 	}
 
 	public Program(String code) {
 		this();
 		init(code);
+	}
+
+	public void init(File file) throws FileNotFoundException {
+		System.setProperty("user.dir", new File(file.getAbsolutePath()).getParent());
+		init(new StreamLexicalAnalyzer(new FileInputStream(file)));
 	}
 
 	public void init(AbstractLexicalAnalyzer lexicalAnalyzer) {
