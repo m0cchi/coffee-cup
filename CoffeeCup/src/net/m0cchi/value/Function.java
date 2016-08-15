@@ -57,9 +57,16 @@ public abstract class Function extends Element implements Serializable {
 				Element element = argument.next();
 				defineVariable(env, arg, element);
 			}
-
 		}
+
+		// hook
+		hook(env);
+
 		return invoke(env);
+	}
+
+	public void hook(Environment env) {
+		// nop
 	}
 
 	public String[] getArgs() {
