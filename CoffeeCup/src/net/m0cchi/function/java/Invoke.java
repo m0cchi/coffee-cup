@@ -74,11 +74,11 @@ public class Invoke extends Macro {
 				if (method.getName().equals(name) && parameterTypes.length == argsType.length) {
 					boolean isAssignable = false;
 					for (int i = 0; i < parameterTypes.length; i++) {
-						if (argsType[i] == NULL.class && parameterTypes[i].equals(argsType[i])) {
+						if (argsType[i] == NULL.class || parameterTypes[i].equals(argsType[i])) {
 							continue;
 						}
 						
-						isAssignable |= argsType[i].isAssignableFrom(parameterTypes[i]);
+						isAssignable |= parameterTypes[i].isAssignableFrom(argsType[i]);
 						if (!isAssignable) {
 							break matching;
 						}
