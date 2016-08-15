@@ -10,9 +10,9 @@ import net.m0cchi.value.NULL.NIL;
 public class Environment implements Serializable {
 	private static final long serialVersionUID = -586360650485649973L;
 	protected static final Map<String, Environment> PACKAGES = new ConcurrentHashMap<>();
-	private Map<String, Element> variableMap;
-	private Map<String, Function> functionMap;
-	private Environment parent;
+	protected Map<String, Element> variableMap;
+	protected Map<String, Function> functionMap;
+	protected Environment parent;
 
 	public Environment() {
 		variableMap = new HashMap<>();
