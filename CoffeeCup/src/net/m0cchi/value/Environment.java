@@ -88,4 +88,23 @@ public class Environment implements Serializable {
 		return Environment.class.getClassLoader();
 	}
 
+	public String[] getFunctionsName() {
+		return this.functionMap.keySet().toArray(new String[0]);
+	}
+
+	public String[] getParentFunctionsName() {
+		if (this.parent == this || this.parent == null) {
+			return new String[0];
+		}
+		return this.parent.getAllFunctionsName();
+	}
+
+	public String[] getAllFunctionsName() {
+		String[] current = getFunctionsName();
+		String[] parent = getParentFunctionsName();
+		String[] all = new String[current.length + parent.length];
+		System.arraycopy(current, 0, all, 0, current.length);
+		System.arraycopy(parent, 0, all, current.length, parent.length);
+		return all;
+	}
 }
