@@ -21,7 +21,8 @@ public class Environment implements Serializable {
 	}
 
 	public Environment(Environment environment) {
-		this();
+		variableMap = new HashMap<>();
+		functionMap = new HashMap<>();
 		this.parent = environment;
 	}
 
@@ -102,6 +103,26 @@ public class Environment implements Serializable {
 	public String[] getAllFunctionsName() {
 		String[] current = getFunctionsName();
 		String[] parent = getParentFunctionsName();
+		String[] all = new String[current.length + parent.length];
+		System.arraycopy(current, 0, all, 0, current.length);
+		System.arraycopy(parent, 0, all, current.length, parent.length);
+		return all;
+	}
+	
+	public String[] getVariablesName() {
+		return this.variableMap.keySet().toArray(new String[0]);
+	}
+
+	public String[] getParentVariablesName() {
+		if (this.parent == this || this.parent == null) {
+			return new String[0];
+		}
+		return this.parent.getAllVariablesName();
+	}
+
+	public String[] getAllVariablesName() {
+		String[] current = getVariablesName();
+		String[] parent = getParentVariablesName();
 		String[] all = new String[current.length + parent.length];
 		System.arraycopy(current, 0, all, 0, current.length);
 		System.arraycopy(parent, 0, all, current.length, parent.length);
