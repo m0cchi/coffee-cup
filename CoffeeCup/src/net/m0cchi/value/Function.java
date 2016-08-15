@@ -73,7 +73,7 @@ public abstract class Function extends Element implements Serializable {
 		return args;
 	}
 
-	public void setArgs(String[] args) {
+	public void setArgs(String... args) {
 		this.args = args;
 	}
 
