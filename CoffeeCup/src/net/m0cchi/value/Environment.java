@@ -10,9 +10,9 @@ import net.m0cchi.value.NULL.NIL;
 public class Environment implements Serializable {
 	private static final long serialVersionUID = -586360650485649973L;
 	protected static final Map<String, Environment> PACKAGES = new ConcurrentHashMap<>();
-	protected Map<String, Element> variableMap;
-	protected Map<String, Function> functionMap;
-	protected Environment parent;
+	private Map<String, Element> variableMap;
+	private Map<String, Function> functionMap;
+	private Environment parent;
 
 	public Environment() {
 		variableMap = new HashMap<>();
@@ -40,9 +40,7 @@ public class Environment implements Serializable {
 
 	public void load(String name) {
 		Environment environment = PACKAGES.get(name);
-		this.variableMap = environment.variableMap;
-		this.functionMap = environment.functionMap;
-		this.parent = environment.parent;
+		move(environment, this);
 	}
 
 	public void defineVariable(String name, Element element) {
@@ -108,7 +106,7 @@ public class Environment implements Serializable {
 		System.arraycopy(parent, 0, all, current.length, parent.length);
 		return all;
 	}
-	
+
 	public String[] getVariablesName() {
 		return this.variableMap.keySet().toArray(new String[0]);
 	}
@@ -127,5 +125,11 @@ public class Environment implements Serializable {
 		System.arraycopy(current, 0, all, 0, current.length);
 		System.arraycopy(parent, 0, all, current.length, parent.length);
 		return all;
+	}
+
+	public static void move(Environment origin, Environment to) {
+		to.parent = origin.parent;
+		to.functionMap = origin.functionMap;
+		to.variableMap = origin.variableMap;
 	}
 }
