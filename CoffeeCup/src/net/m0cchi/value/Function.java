@@ -1,5 +1,7 @@
 package net.m0cchi.value;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -75,6 +77,56 @@ public abstract class Function extends Element implements Serializable {
 
 	public void setArgs(String... args) {
 		this.args = args;
+	}
+
+	public String getName() {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		List<Integer> points = new ArrayList<>();
+		String orignString = this.getClass().getSimpleName();
+		byte[] origin = orignString.getBytes();
+		int A = 65;
+		int Z = 90;
+		int tolowerValue = 32;// a - A
+		for (int i = 0; i < origin.length; i++) {
+			byte ch = origin[i];
+			if (ch >= A && ch <= Z) {
+				points.add(i);
+				origin[i] = (byte) (origin[i] + tolowerValue);
+			}
+		}
+
+		if (points.size() == 0 || points.size() == 1) {
+			return new String(origin);
+		}
+
+		points.remove(0);
+
+		if ("def".equalsIgnoreCase(new String(origin, 0, points.get(0)))) {
+			points.remove(0);
+			if (points.size() == 0) {
+				return new String(origin);
+			}
+		}
+
+		int before = 0;
+		Iterator<Integer> it = points.iterator();
+		while (it.hasNext()) {
+			baos.write(origin, before, (-before + (before += it.next())));
+			if (it.hasNext()) {
+				baos.write('-');
+			} else {
+				baos.write('-');
+				baos.write(origin, before, origin.length - before);
+			}
+		}
+
+		String ret = baos.toString();
+		try {
+			baos.close();
+		} catch (IOException e) {
+		}
+
+		return ret;
 	}
 
 }
