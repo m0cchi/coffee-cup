@@ -69,6 +69,10 @@ public class Environment implements Serializable {
 	public void defineFunction(String name, Function function) {
 		this.functionMap.put(name, function);
 	}
+	
+	public void defineFunction(Function function) {
+		this.functionMap.put(function.getName(), function);
+	}
 
 	public Function getFunction(String name) {
 		return this.functionMap.containsKey(name) ? this.functionMap.get(name) : this.parent != null ? this.parent.getFunction(name) : null;
