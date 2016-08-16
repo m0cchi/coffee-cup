@@ -24,6 +24,7 @@ public class Defun extends Macro {
 		Value<String> name = (Value<String>) environment.getValue(getArgs()[0]);
 		final SList args = (SList) environment.getValue(getArgs()[1]);
 		final Element[] body = ((SList) environment.getValue(getArgs()[3])).toArray();
+		final String NAME = name.getNativeValue();
 		@SuppressWarnings({ "unchecked" })
 		Function function = new Function() {
 			private static final long serialVersionUID = 1L;
@@ -45,9 +46,14 @@ public class Defun extends Macro {
 				}
 				return ret;
 			}
+
+			@Override
+			public String getName() {
+				return NAME;
+			}
 		};
-		
-		environment.getParent().defineFunction(name.getNativeValue(), function);
+
+		environment.getParent().defineFunction(NAME, function);
 		return new SList();
 	}
 
