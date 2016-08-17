@@ -42,9 +42,11 @@ public class Invoke extends Macro {
 
 		try {
 			Class<?> clazz = instance.getNativeValue().getClass();
+			
 			Method method = findMethod(clazz, name.getNativeValue(), argsType.toArray(new Class[0]));
 
-			Object object = method.invoke(instance.getNativeValue(), argsList.toArray(new Object[0]));
+			Object[] argsArray = argsList.size() == 0 ? null : argsList.toArray(new Object[0]);
+			Object object = method.invoke(instance.getNativeValue(), argsArray);
 			if (object instanceof Element) {
 				ret = (Element) object;
 			} else if (object != null) {
