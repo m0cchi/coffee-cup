@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertThat;
 import net.m0cchi.function.java.AppendLoadPath;
+import net.m0cchi.function.java.GetField;
 import net.m0cchi.function.java.Invoke;
 import net.m0cchi.function.java.New;
 import net.m0cchi.parser.lexical.StringLexicalAnalyzer;
@@ -191,8 +192,30 @@ public class TestJava {
 		@SuppressWarnings("unchecked")
 		Value<String> result = (Value<String>) semanticAnalyzer.evaluate(values[1]);
 
-		assertThat(result.getNativeValue(), is(equalTo("invoked")));
+		assertThat(result.getNativeValue(), is(equalTo("invoked")));	
+	}
+
+	@Test
+	public void testGetPublicLocalField() {
+		Environment environment = new Environment();
+		environment.defineFunction(".", new Invoke());
+		environment.defineFunction(".new", new New());
+		environment.defineFunction(new GetField());
+		environment.defineFunction(new Defvar());
+		environment.defineFunction("append-loadpath", new AppendLoadPath());
+
+		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(defvar super (.new net.m0cchi.function.data.Super))"
+				+ "(get-field field super)");
+		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
+		Element ret = syntaxAnalyzer.parse();
+		Element[] values = ((SList) ret).toArray();
+
+		semanticAnalyzer.evaluate(values[0]);
 		
-		
+		@SuppressWarnings("unchecked")
+		Value<String> result = (Value<String>) semanticAnalyzer.evaluate(values[1]);
+
+		assertThat(result.getNativeValue(), is(equalTo("super")));	
 	}
 }
