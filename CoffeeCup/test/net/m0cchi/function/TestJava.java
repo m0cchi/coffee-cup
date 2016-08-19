@@ -196,7 +196,7 @@ public class TestJava {
 	}
 
 	@Test
-	public void testGetPublicLocalField() {
+	public void testGetField() {
 		Environment environment = new Environment();
 		environment.defineFunction(".", new Invoke());
 		environment.defineFunction(".new", new New());
@@ -206,7 +206,7 @@ public class TestJava {
 
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(defvar super (.new net.m0cchi.function.data.Super))"
-				+ "(get-field field super)");
+				+ "(get-field field (.new net.m0cchi.function.data.Super))");
 		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
 		Element ret = syntaxAnalyzer.parse();
 		Element[] values = ((SList) ret).toArray();
@@ -217,5 +217,29 @@ public class TestJava {
 		Value<String> result = (Value<String>) semanticAnalyzer.evaluate(values[1]);
 
 		assertThat(result.getNativeValue(), is(equalTo("super")));	
+	}
+	
+	@Test
+	public void testGetPublicStaticField() {
+		Environment environment = new Environment();
+		environment.defineFunction(".", new Invoke());
+		environment.defineFunction(".new", new New());
+		environment.defineFunction(new GetField());
+		environment.defineFunction(new Defvar());
+		environment.defineFunction("append-loadpath", new AppendLoadPath());
+
+		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
+		StringLexicalAnalyzer lexicalAnalyser = new StringLexicalAnalyzer("(defvar super (.new net.m0cchi.function.data.Super))"
+				+ "(get-field staticField super)");
+		SyntaxAnalyzer syntaxAnalyzer = new SyntaxAnalyzer(lexicalAnalyser);
+		Element ret = syntaxAnalyzer.parse();
+		Element[] values = ((SList) ret).toArray();
+
+		semanticAnalyzer.evaluate(values[0]);
+		
+		@SuppressWarnings("unchecked")
+		Value<String> result = (Value<String>) semanticAnalyzer.evaluate(values[1]);
+
+		assertThat(result.getNativeValue(), is(equalTo("super-static")));	
 	}
 }

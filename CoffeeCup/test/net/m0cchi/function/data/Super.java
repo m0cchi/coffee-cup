@@ -4,6 +4,7 @@ package net.m0cchi.function.data;
 public class Super {
 
 	public String field = "super";
+	public static String staticField = "super-static";
 
 	public String hoge(Super obj) {
 		return obj.field;
