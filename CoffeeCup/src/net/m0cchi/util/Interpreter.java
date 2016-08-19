@@ -1,7 +1,6 @@
 package net.m0cchi.util;
 
 import java.io.ByteArrayInputStream;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
