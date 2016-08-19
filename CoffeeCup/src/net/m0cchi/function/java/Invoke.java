@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
+import net.m0cchi.util.JavaUtil;
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
@@ -43,7 +44,7 @@ public class Invoke extends Macro {
 		try {
 			Class<?> clazz = instance.getNativeValue().getClass();
 			
-			Method method = findMethod(clazz, name.getNativeValue(), argsType.toArray(new Class[0]));
+			Method method = JavaUtil.findMethod(clazz, name.getNativeValue(), argsType.toArray(new Class[0]));
 
 			Object[] argsArray = argsList.size() == 0 ? null : argsList.toArray(new Object[0]);
 			Object object = method.invoke(instance.getNativeValue(), argsArray);
@@ -62,41 +63,5 @@ public class Invoke extends Macro {
 		}
 
 		return ret;
-	}
-
-	public static Method findMethod(Class<?> clazz, String name, Class<?>[] argsType) {
-		if (clazz == null)
-			return null;
-		Method[] methods = clazz.getDeclaredMethods();
-
-		List<Method> candidates = new ArrayList<>();
-		for (Method method : methods) {
-			Class<?>[] parameterTypes = method.getParameterTypes();
-			matching: {
-				if (method.getName().equals(name) && parameterTypes.length == argsType.length) {
-					boolean isAssignable = false;
-					for (int i = 0; i < parameterTypes.length; i++) {
-						if (argsType[i] == NULL.class || parameterTypes[i].equals(argsType[i])) {
-							continue;
-						}
-						
-						isAssignable |= parameterTypes[i].isAssignableFrom(argsType[i]);
-						if (!isAssignable) {
-							break matching;
-						}
-					}
-					if (!isAssignable) {
-						return method;
-					} else {
-						candidates.add(method);
-					}
-				}
-			}
-		}
-		if (!candidates.isEmpty()) {
-			return candidates.get(0);
-		}
-
-		return findMethod(clazz.getSuperclass(), name, argsType);
 	}
 }

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
+import net.m0cchi.util.JavaUtil;
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
@@ -39,7 +40,7 @@ public class New extends Macro {
 
 		try {
 			Class<?> clazz = environment.getClassLoader().loadClass(name.getNativeValue());
-			Constructor<?> constructor = findConstructor(clazz, argsType.toArray(new Class[0]));
+			Constructor<?> constructor = JavaUtil.findConstructor(clazz, argsType.toArray(new Class[0]));
 
 			Object value = constructor.newInstance(argsList.toArray(new Object[0]));
 			ret = new Value<Object>(AtomicType.JAVA, value);
@@ -50,38 +51,4 @@ public class New extends Macro {
 		return ret;
 	}
 
-	public static Constructor<?> findConstructor(Class<?> clazz, Class<?>[] argsType) {
-		Constructor<?>[] constructors = clazz.getDeclaredConstructors();
-
-		List<Constructor<?>> candidates = new ArrayList<>();
-		for (Constructor<?> constructor : constructors) {
-			Class<?>[] parameterTypes = constructor.getParameterTypes();
-			matching: {
-				if (parameterTypes.length == argsType.length) {
-					boolean isAssignable = false;
-					for (int i = 0; i < parameterTypes.length; i++) {
-						if (argsType[i] == NULL.class || parameterTypes[i].equals(argsType[i])) {
-							continue;
-						}
-						
-						isAssignable |= parameterTypes[i].isAssignableFrom(argsType[i]);
-						if (!isAssignable) {
-							break matching;
-						}
-					}
-					if (!isAssignable) {
-						return constructor;
-					} else {
-						candidates.add(constructor);
-					}
-				}
-			}
-		}
-
-		if (!candidates.isEmpty()) {
-			return candidates.get(0);
-		}
-
-		return null;
-	}
 }

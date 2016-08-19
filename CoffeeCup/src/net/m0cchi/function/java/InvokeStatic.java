@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
+import net.m0cchi.util.JavaUtil;
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
@@ -42,7 +43,7 @@ public class InvokeStatic extends Macro {
 
 		try {
 			Class<?> clazz = Class.forName(className.getNativeValue());
-			Method method = Invoke.findMethod(clazz, name.getNativeValue(), argsType.toArray(new Class[0]));
+			Method method = JavaUtil.findMethod(clazz, name.getNativeValue(), argsType.toArray(new Class[0]));
 			Object[] argsArray = argsList.size() == 0 ? null : argsList.toArray(new Object[0]);
 			Object object = method.invoke(null, argsArray);
 			if (object instanceof Element) {
