@@ -99,7 +99,7 @@ public class Server {
 
 	public static void main(String[] args) throws IOException {
 		Program program = new Program("(defvar context '(\"/\" 'hello))"
-				+ "(http-service 28080 context)");
+				+ "(http-service 28080 '(\"/\" 'hello) '(\"/new\" 'web-pack))");
 		Environment environment = program.getEnvironment();
 		environment.defineFunction("defvar", new Defvar());
 		environment.defineFunction("http-service", new HTTP_SERVER());

@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.m0cchi.function.java.util.JavaUtil;
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
-import net.m0cchi.util.JavaUtil;
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;

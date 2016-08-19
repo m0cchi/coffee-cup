@@ -1,4 +1,4 @@
-package net.m0cchi.util;
+package net.m0cchi.function.java.util;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
