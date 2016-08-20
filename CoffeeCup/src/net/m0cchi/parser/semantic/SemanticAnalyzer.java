@@ -1,5 +1,7 @@
 package net.m0cchi.parser.semantic;
 
+import java.util.List;
+
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
@@ -22,24 +24,32 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 	private Function internFunction(Element element) {
 		if (element instanceof Value) {
 			Object object = ((Value<?>) element).getNativeValue();
-			if (object instanceof Function) {
-				return (Function) object;
-			} else {
-				return environment.getFunction(object.toString());
-			}
+			return environment.getFunction(object.toString());
+		} else if(element instanceof Function) {
+			return (Function) element;
 		}
 		return null;
 	}
 
-	public Element evaluate(SList value) {
-		Element head = value.get(0);
+	private Element invokeFunction(Element head, Element[] args) {
 		Function function = internFunction(head);
-		Element[] args = value.cdr().toArray();
 		Element ret = function.invoke(this.environment, args);
 		if (function instanceof Macro) {
 			ret = evaluate(ret);
 		}
 		return ret;
+	}
+
+	public Element evaluate(List<Element> value) {
+		Element head = value.get(0);
+		Element[] args = value.subList(1, value.size()).toArray(new Element[0]);
+		return invokeFunction(head, args);
+	}
+
+	public Element evaluate(SList value) {
+		Element head = value.get(0);
+		Element[] args = value.cdr().toArray();
+		return invokeFunction(head, args);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -67,4 +77,5 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 		}
 		return ret;
 	}
+
 }
