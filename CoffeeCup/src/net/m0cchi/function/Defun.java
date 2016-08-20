@@ -18,15 +18,9 @@ public class Defun extends Macro {
 		setArgs(new String[] { "defun name", "defun args", REST, "defun body" });
 	}
 
-	@Override
-	public Element invoke(Environment environment) {
-		@SuppressWarnings("unchecked")
-		Value<String> name = (Value<String>) environment.getValue(getArgs()[0]);
-		final SList args = (SList) environment.getValue(getArgs()[1]);
-		final Element[] body = ((SList) environment.getValue(getArgs()[3])).toArray();
-		final String NAME = name.getNativeValue();
-		@SuppressWarnings({ "unchecked" })
-		Function function = new Function() {
+	@SuppressWarnings("unchecked")
+	protected Function buildFunction(final String name, final SList args, final Element[] body) {
+		return new Function() {
 			private static final long serialVersionUID = 1L;
 
 			{
@@ -49,9 +43,20 @@ public class Defun extends Macro {
 
 			@Override
 			public String getName() {
-				return NAME;
+				return name;
 			}
 		};
+	}
+
+	@Override
+	public Element invoke(Environment environment) {
+		@SuppressWarnings("unchecked")
+		Value<String> name = (Value<String>) environment.getValue(getArgs()[0]);
+		final SList args = (SList) environment.getValue(getArgs()[1]);
+		final Element[] body = ((SList) environment.getValue(getArgs()[3])).toArray();
+		final String NAME = name.getNativeValue();
+
+		Function function = buildFunction(NAME, args, body);
 
 		environment.getParent().defineFunction(NAME, function);
 		return new SList();
