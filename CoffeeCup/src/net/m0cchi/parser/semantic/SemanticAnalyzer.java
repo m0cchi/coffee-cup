@@ -19,11 +19,23 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 		this(new Environment());
 	}
 
+	private Function internFunction(Element element) {
+		if (element instanceof Value) {
+			Object object = ((Value<?>) element).getNativeValue();
+			if (object instanceof Function) {
+				return (Function) object;
+			} else {
+				return environment.getFunction(object.toString());
+			}
+		}
+		return null;
+	}
+
 	public Element evaluate(SList value) {
-		@SuppressWarnings("unchecked")
-		Value<String> head = (Value<String>) value.get(0);
-		Function function = environment.getFunction(head.getNativeValue());
-		Element ret = function.invoke(this.environment, value.cdr().toArray());
+		Element head = value.get(0);
+		Function function = internFunction(head);
+		Element[] args = value.cdr().toArray();
+		Element ret = function.invoke(this.environment, args);
 		if (function instanceof Macro) {
 			ret = evaluate(ret);
 		}
