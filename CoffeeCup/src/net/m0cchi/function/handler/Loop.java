@@ -11,7 +11,7 @@ public class Loop extends Macro {
 	private static final long serialVersionUID = -2597737838672599632L;
 
 	public Loop() {
-		setArgs(REST, "body");
+		setArgs(REST, "loop body");
 	}
 
 	@Override
@@ -19,6 +19,7 @@ public class Loop extends Macro {
 		SList body = (SList) environment.getValue(getArgs()[1]);
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		Element ret = null;
+		body.add(0, new DoList());// insert head
 		while (true) {
 			try {
 				ret = semanticAnalyzer.evaluate(body);
