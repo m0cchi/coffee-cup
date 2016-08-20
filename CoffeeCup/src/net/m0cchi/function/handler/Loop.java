@@ -16,7 +16,7 @@ public class Loop extends Macro {
 
 	@Override
 	public Element invoke(Environment environment) {
-		SList body = (SList) environment.getValue(getArgs()[0]);
+		SList body = (SList) environment.getValue(getArgs()[1]);
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		Element ret = null;
 		while (true) {
