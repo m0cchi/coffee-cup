@@ -25,6 +25,14 @@ public class SList extends Value<List<Element>> {
 	public Element get(int index) {
 		return value.get(index);
 	}
+	
+	public void add(int index, Element element) {
+		this.value.add(index, element);
+	}
+	
+	public void add(Element element) {
+		this.value.add(element);
+	}
 
 	public SList cdr() {
 		List<Element> list = new ArrayList<>(this.value);
