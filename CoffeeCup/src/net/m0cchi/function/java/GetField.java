@@ -29,7 +29,7 @@ public class GetField extends Macro {
 		boolean isClass = instance instanceof Class;
 		@SuppressWarnings("unchecked")
 		Class<?> clazz = isClass ? (Class<? extends Object>) instance : instance.getClass();
-		Element ret = new NIL();
+		Element ret = NIL.NIL;
 		try {
 			Field field = clazz.getField(fieldNameValue.getNativeValue());
 			Object value = field.get(isClass ? null : instance);

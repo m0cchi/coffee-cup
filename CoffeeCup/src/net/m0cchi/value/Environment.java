@@ -17,7 +17,7 @@ public class Environment implements Serializable {
 	public Environment() {
 		variableMap = new HashMap<>();
 		functionMap = new HashMap<>();
-		variableMap.put("nil", new NIL());
+		variableMap.put("nil", NIL.NIL);
 	}
 
 	public Environment(Environment environment) {

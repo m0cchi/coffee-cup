@@ -51,7 +51,7 @@ public class InvokeStatic extends Macro {
 			} else if (object != null) {
 				ret = new Value<Object>(AtomicType.JAVA, object);
 			} else {
-				ret = new NIL();
+				ret = NIL.NIL;
 			}
 
 		} catch (Throwable e) {

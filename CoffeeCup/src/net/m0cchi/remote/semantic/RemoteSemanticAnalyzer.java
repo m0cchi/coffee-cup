@@ -49,7 +49,7 @@ public class RemoteSemanticAnalyzer implements ISemanticAnalyzer {
 				throw new Exception();
 			}
 		} catch (Throwable e) {
-			ret = new NIL();
+			ret = NIL.NIL;
 		}
 		return ret;
 	}
