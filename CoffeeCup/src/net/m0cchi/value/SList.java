@@ -19,7 +19,7 @@ public class SList extends Value<List<Element>> {
 	}
 
 	public Element[] toArray() {
-		return value.toArray(new Value[0]);
+		return value.toArray(new Element[0]);
 	}
 
 	public Element get(int index) {

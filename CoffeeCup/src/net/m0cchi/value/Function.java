@@ -55,7 +55,7 @@ public abstract class Function extends Element implements Serializable {
 			String arg = parametor.next();
 			if(arg.equals(DEFAULT_NIL)){
 				defaultNil = true;
-			}else if (arg.equals(REST)) {
+			} else if (arg.equals(REST)) {
 				arg = parametor.next();
 				List<Element> list = new ArrayList<>();
 				while (argument.hasNext()) {
@@ -144,6 +144,10 @@ public abstract class Function extends Element implements Serializable {
 		}
 
 		return ret;
+	}
+	
+	public String toString() {
+		return getName();
 	}
 
 }

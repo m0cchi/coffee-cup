@@ -14,4 +14,8 @@ public class Value<T> extends Element implements Serializable {
 	public T getNativeValue() {
 		return value;
 	}
+	
+	public String toString() {
+		return value.toString();
+	}
 }
