@@ -7,13 +7,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
+import net.m0cchi.exception.handler.Abort;
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
+import net.m0cchi.value.NULL.NIL;
 
 public abstract class Function extends Element implements Serializable {
 	private static final long serialVersionUID = -6360469178584951813L;
 	private final static String[] NONE_ARGS = {};
 	protected final static String REST = "&rest";
+	protected final static String DEFAULT_NIL = "&default-nil";
 	private String[] args;
 
 	{
@@ -46,9 +50,12 @@ public abstract class Function extends Element implements Serializable {
 		Environment env = new Environment(environment);
 		Iterator<String> parametor = Arrays.asList(this.args).iterator();
 		Iterator<Element> argument = Arrays.asList(args).iterator();
+		boolean defaultNil = false;
 		while (parametor.hasNext()) {
 			String arg = parametor.next();
-			if (arg.equals(REST)) {
+			if(arg.equals(DEFAULT_NIL)){
+				defaultNil = true;
+			}else if (arg.equals(REST)) {
 				arg = parametor.next();
 				List<Element> list = new ArrayList<>();
 				while (argument.hasNext()) {
@@ -56,8 +63,18 @@ public abstract class Function extends Element implements Serializable {
 				}
 				defineVariable(env, arg, list);
 			} else {
-				Element element = argument.next();
-				defineVariable(env, arg, element);
+				try {
+					Element element = argument.next();
+					defineVariable(env, arg, element);
+				} catch (NoSuchElementException e) {
+					if(defaultNil) {
+						defineVariable(env, arg, NIL.NIL);
+					} else {
+						RuntimeException exception = new Abort();
+						exception.setStackTrace(e.getStackTrace());
+						throw e;
+					}
+				}
 			}
 		}
 
