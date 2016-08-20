@@ -5,9 +5,10 @@ public class NULL {
 
 	public static class NIL extends Value<NULL> {
 		private static final long serialVersionUID = 6231554955129135752L;
+		public static final NIL NIL = new NIL();
 
 		public NIL() {
-			super(AtomicType.NIL, OWN);
+			super(AtomicType.NIL, NULL.OWN);
 		}
 
 	}
