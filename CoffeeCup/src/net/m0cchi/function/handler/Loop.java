@@ -6,6 +6,7 @@ import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
 import net.m0cchi.value.Macro;
 import net.m0cchi.value.SList;
+import net.m0cchi.value.NULL.NIL;
 
 public class Loop extends Macro {
 	private static final long serialVersionUID = -2597737838672599632L;
@@ -18,7 +19,7 @@ public class Loop extends Macro {
 	public Element invoke(Environment environment) {
 		SList body = (SList) environment.getValue(getArgs()[1]);
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
-		Element ret = null;
+		Element ret = NIL.NIL;
 		body.add(0, new DoList());// insert head
 		while (true) {
 			try {
