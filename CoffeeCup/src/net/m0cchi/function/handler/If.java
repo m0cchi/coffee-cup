@@ -8,7 +8,6 @@ import net.m0cchi.parser.semantic.SemanticAnalyzer;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
 import net.m0cchi.value.Macro;
-import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
 public class If extends Macro {
@@ -32,7 +31,7 @@ public class If extends Macro {
 		if (condResult instanceof Value && ToBoolean.isTrue(condResult)) {
 			ret = trueBody;
 		} else {
-			ret = falseBody == null ? new SList() : falseBody;
+			ret = falseBody;
 		}
 		return ret;
 	}
