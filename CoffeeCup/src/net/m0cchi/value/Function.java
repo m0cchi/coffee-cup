@@ -150,4 +150,26 @@ public abstract class Function extends Element implements Serializable {
 		return getName();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Arrays.hashCode(args);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Function other = (Function) obj;
+		if (!Arrays.equals(args, other.args))
+			return false;
+		return true;
+	}
+
 }
