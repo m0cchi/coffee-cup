@@ -1,7 +1,5 @@
 package net.m0cchi.value;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,8 +10,9 @@ import java.util.NoSuchElementException;
 import net.m0cchi.exception.handler.Abort;
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
 import net.m0cchi.value.NULL.NIL;
+import net.m0cchi.value.i.Namable;
 
-public abstract class Function extends Element implements Serializable {
+public abstract class Function extends Element implements Serializable, Namable {
 	private static final long serialVersionUID = -6360469178584951813L;
 	private final static String[] NONE_ARGS = {};
 	protected final static String REST = "&rest";
@@ -53,7 +52,7 @@ public abstract class Function extends Element implements Serializable {
 		boolean defaultNil = false;
 		while (parametor.hasNext()) {
 			String arg = parametor.next();
-			if(arg.equals(DEFAULT_NIL)){
+			if (arg.equals(DEFAULT_NIL)) {
 				defaultNil = true;
 			} else if (arg.equals(REST)) {
 				arg = parametor.next();
@@ -67,7 +66,7 @@ public abstract class Function extends Element implements Serializable {
 					Element element = argument.next();
 					defineVariable(env, arg, element);
 				} catch (NoSuchElementException e) {
-					if(defaultNil) {
+					if (defaultNil) {
 						defineVariable(env, arg, NIL.NIL);
 					} else {
 						RuntimeException exception = new Abort();
@@ -96,56 +95,6 @@ public abstract class Function extends Element implements Serializable {
 		this.args = args;
 	}
 
-	public String getName() {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		List<Integer> points = new ArrayList<>();
-		String orignString = this.getClass().getSimpleName();
-		byte[] origin = orignString.getBytes();
-		int A = 65;
-		int Z = 90;
-		int tolowerValue = 32;// a - A
-		for (int i = 0; i < origin.length; i++) {
-			byte ch = origin[i];
-			if (ch >= A && ch <= Z) {
-				points.add(i);
-				origin[i] = (byte) (origin[i] + tolowerValue);
-			}
-		}
-
-		if (points.size() == 0 || points.size() == 1) {
-			return new String(origin);
-		}
-
-		points.remove(0);
-
-		if ("def".equalsIgnoreCase(new String(origin, 0, points.get(0)))) {
-			points.remove(0);
-			if (points.size() == 0) {
-				return new String(origin);
-			}
-		}
-
-		int before = 0;
-		Iterator<Integer> it = points.iterator();
-		while (it.hasNext()) {
-			baos.write(origin, before, (-before + (before += it.next())));
-			if (it.hasNext()) {
-				baos.write('-');
-			} else {
-				baos.write('-');
-				baos.write(origin, before, origin.length - before);
-			}
-		}
-
-		String ret = baos.toString();
-		try {
-			baos.close();
-		} catch (IOException e) {
-		}
-
-		return ret;
-	}
-	
 	public String toString() {
 		return getName();
 	}
