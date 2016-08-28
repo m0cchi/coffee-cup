@@ -71,4 +71,18 @@ public class Characters extends Value<String> implements ListAPI {
 		}
 	}
 
+	public Element substring(int start, int end) {
+		String str = value.substring(start, end);
+		return new Characters(str);
+	}
+
+	public Element indexOf(Element element) {
+		int index = -1;
+		if (element instanceof Value) {
+			String target = ((Value<?>) element).getNativeValue().toString();
+			index = value.indexOf(target);
+		}
+		return new Value<Integer>(AtomicType.DIGIT, index);
+	}
+
 }
