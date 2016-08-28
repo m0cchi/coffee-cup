@@ -71,8 +71,12 @@ public class Characters extends Value<String> implements ListAPI {
 		}
 	}
 
-	public Element substring(int start, int end) {
-		String str = value.substring(start, end);
+	public Element substring(Element start, Element end) {
+		@SuppressWarnings("unchecked")
+		int startNum = ((Value<Integer>) start).getNativeValue();
+		@SuppressWarnings("unchecked")
+		int endNum =((Value<Integer>) end).getNativeValue();
+		String str = value.substring(startNum, endNum);
 		return new Characters(str);
 	}
 
