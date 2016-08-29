@@ -11,12 +11,12 @@ public abstract class Macro extends Function {
 	}
 
 	@Override
-	protected void defineVariable(Environment environment, String name, Element value) {
+	protected void defineVariable(Environment ref, Environment environment, String name, Element value) {
 		environment.defineVariable(name, value);
 	}
 
 	@Override
-	protected void defineVariable(Environment environment, String name, List<Element> list) {
+	protected void defineVariable(Environment ref, Environment environment, String name, List<Element> list) {
 		environment.defineVariable(name, new SList(list));
 	}
 

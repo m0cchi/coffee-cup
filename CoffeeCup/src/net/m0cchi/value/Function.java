@@ -30,13 +30,13 @@ public abstract class Function extends Element implements Serializable, Namable 
 
 	public abstract Element invoke(Environment environment);
 
-	protected void defineVariable(Environment environment, String name, Element value) {
-		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
+	protected void defineVariable(Environment ref, Environment environment, String name, Element value) {
+		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(ref);
 		value = semanticAnalyzer.evaluate(value);
 		environment.defineVariable(name, value);
 	}
 
-	protected void defineVariable(Environment environment, String name, List<Element> list) {
+	protected void defineVariable(Environment ref, Environment environment, String name, List<Element> list) {
 		List<Element> args = new ArrayList<>();
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		for (Element arg : list) {
@@ -60,14 +60,14 @@ public abstract class Function extends Element implements Serializable, Namable 
 				while (argument.hasNext()) {
 					list.add(argument.next());
 				}
-				defineVariable(env, arg, list);
+				defineVariable(environment, env, arg, list);
 			} else {
 				try {
 					Element element = argument.next();
-					defineVariable(env, arg, element);
+					defineVariable(environment, env, arg, element);
 				} catch (NoSuchElementException e) {
 					if (defaultNil) {
-						defineVariable(env, arg, NIL.NIL);
+						defineVariable(environment, env, arg, NIL.NIL);
 					} else {
 						RuntimeException exception = new Abort();
 						exception.setStackTrace(e.getStackTrace());
