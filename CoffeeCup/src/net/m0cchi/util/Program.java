@@ -50,12 +50,18 @@ public class Program implements Runnable {
 		return environment;
 	}
 
-	@Override
-	public void run() {
+	public Element execute() {
+		Element ret = null;
 		SList values = (SList) syntaxAnalyzer.parse();
 		for (Element value : values.getNativeValue()) {
-			this.semanticAnalyzer.evaluate(value);
+			ret = this.semanticAnalyzer.evaluate(value);
 		}
+		return ret;
+	}
+
+	@Override
+	public void run() {
+		execute();
 	}
 
 }
