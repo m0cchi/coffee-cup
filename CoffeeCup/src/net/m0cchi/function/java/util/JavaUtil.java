@@ -1,5 +1,6 @@
 package net.m0cchi.function.java.util;
 
+import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -36,10 +37,19 @@ public class JavaUtil {
 		return PRIMITIVE_CLASS_MAP.get(clazz);
 	}
 
+	private static AccessibleObject toAccessible(AccessibleObject method) {
+		if (!method.isAccessible()) {
+			method.setAccessible(true);
+		}
+		return method;
+	}
+
 	public static Method findMethod(Class<?> clazz, String name, Class<?>[] argsType) {
 		if (clazz == null)
 			return null;
 		Method[] methods = clazz.getDeclaredMethods();
+		Method ret = null;
+		;
 
 		List<Method> candidates = new ArrayList<>();
 		for (Method method : methods) {
@@ -61,18 +71,24 @@ public class JavaUtil {
 						}
 					}
 					if (!isAssignable) {
-						return method;
+						ret = method;
+						break;
 					} else {
 						candidates.add(method);
 					}
 				}
 			}
 		}
-		if (!candidates.isEmpty()) {
-			return candidates.get(0);
+
+		if (ret == null) {
+			if (!candidates.isEmpty()) {
+				ret = candidates.get(0);
+			} else {
+				ret = findMethod(clazz.getSuperclass(), name, argsType);
+			}
 		}
 
-		return findMethod(clazz.getSuperclass(), name, argsType);
+		return (Method) toAccessible(ret);
 	}
 
 	public static Constructor<?> findConstructor(Class<?> clazz, Class<?>[] argsType) {
