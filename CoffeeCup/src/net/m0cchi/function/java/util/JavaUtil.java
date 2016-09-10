@@ -49,7 +49,6 @@ public class JavaUtil {
 			return null;
 		Method[] methods = clazz.getDeclaredMethods();
 		Method ret = null;
-		;
 
 		List<Method> candidates = new ArrayList<>();
 		for (Method method : methods) {
