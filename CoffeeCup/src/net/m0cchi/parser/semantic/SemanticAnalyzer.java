@@ -2,6 +2,7 @@ package net.m0cchi.parser.semantic;
 
 import java.util.List;
 
+import net.m0cchi.exception.handler.Abort;
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
@@ -25,7 +26,7 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 		if (element instanceof Value) {
 			Object object = ((Value<?>) element).getNativeValue();
 			return environment.getFunction(object.toString());
-		} else if(element instanceof Function) {
+		} else if (element instanceof Function) {
 			return (Function) element;
 		}
 		return null;
@@ -33,6 +34,11 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 
 	private Element invokeFunction(Element head, Element[] args) {
 		Function function = internFunction(head);
+		if (function == null) {
+			Abort abort = new Abort();
+			abort.addSuppressed(new NullPointerException(head.toString()));
+			throw abort;
+		}
 		Element ret = function.invoke(this.environment, args);
 		if (function instanceof Macro) {
 			ret = evaluate(ret);
