@@ -15,13 +15,13 @@ public abstract class AbstractLexicalAnalyzer {
 	/**
 	 * END OF SOURCE CODE
 	 */
-	private final static int EOF = -1;
-	private final static int DOT;
-	private final static int NEW_LINE = toAsciiCode("\n");
+	protected final static int EOF = -1;
+	protected final static int DOT;
+	protected final static int NEW_LINE = toAsciiCode("\n");
+	protected final static int SKIP_LINE = toAsciiCode(";");
 	private final static Map<Integer, AtomicType> PARENTHESIS_MAP = new HashMap<>();
 	private final static Map<Integer, AtomicType> SIGN_MAP = new HashMap<>();
 	private final static List<Integer> SKIP_LIST = new ArrayList<>();
-	private final static int SKIP_LINE = toAsciiCode(";");
 	private final static List<Integer> DIGIT_LIST = new ArrayList<>();
 	private final static List<Integer> LETTER_LIST = new ArrayList<>();
 	private final static List<Integer> BOOL_LIST = new ArrayList<>();
