@@ -19,6 +19,8 @@ public abstract class AbstractLexicalAnalyzer {
 	protected final static int DOT;
 	protected final static int NEW_LINE = toAsciiCode("\n");
 	protected final static int SKIP_LINE = toAsciiCode(";");
+	protected final static int ESCAPE_FLAG = toAsciiCode("\\");
+	protected final static int N = toAsciiCode("n");
 	private final static Map<Integer, AtomicType> PARENTHESIS_MAP = new HashMap<>();
 	private final static Map<Integer, AtomicType> SIGN_MAP = new HashMap<>();
 	private final static List<Integer> SKIP_LIST = new ArrayList<>();
@@ -61,6 +63,13 @@ public abstract class AbstractLexicalAnalyzer {
 		}
 		// init bool
 		BOOL_LIST.add(toAsciiCode("T"));
+	}
+
+	protected static int escape(int code) {
+		if (code == N) {
+			return NEW_LINE;
+		}
+		return code;
 	}
 
 	/**
@@ -146,7 +155,16 @@ public abstract class AbstractLexicalAnalyzer {
 		Element value = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int code;
+		boolean escape = false;
 		while (!((code = read()) == EOF || code == period)) {
+			if (code == ESCAPE_FLAG && !escape) {
+				escape = true;
+				continue;
+			}
+			if (escape) {
+				code = escape(code);
+				escape = false;
+			}
 			baos.write(code);
 		}
 		value = new Value<String>(AtomicType.LETTER, baos.toString());
