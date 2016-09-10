@@ -155,15 +155,9 @@ public abstract class AbstractLexicalAnalyzer {
 		Element value = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		int code;
-		boolean escape = false;
 		while (!((code = read()) == EOF || code == period)) {
-			if (code == ESCAPE_FLAG && !escape) {
-				escape = true;
-				continue;
-			}
-			if (escape) {
-				code = escape(code);
-				escape = false;
+			if (code == ESCAPE_FLAG) {
+				code = escape(read());
 			}
 			baos.write(code);
 		}
