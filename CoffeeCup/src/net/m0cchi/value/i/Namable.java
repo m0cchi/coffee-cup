@@ -40,15 +40,13 @@ public interface Namable {
 
 		int before = 0;
 		Iterator<Integer> it = points.iterator();
+		baos.write(origin, before, (-before + (before = it.next())));
 		while (it.hasNext()) {
-			baos.write(origin, before, (-before + (before += it.next())));
-			if (it.hasNext()) {
-				baos.write('-');
-			} else {
-				baos.write('-');
-				baos.write(origin, before, origin.length - before);
-			}
+			baos.write('-');
+			baos.write(origin, before, (-before + (before = it.next())));
 		}
+		baos.write('-');
+		baos.write(origin, before, origin.length - before);
 
 		String ret = baos.toString();
 		try {
