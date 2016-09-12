@@ -29,10 +29,6 @@ public class JavaUtil {
 		};
 	}
 
-	public static boolean isPrimitive(Class<?> clazz) {
-		return PRIMITIVE_CLASS_MAP.containsKey(clazz);
-	}
-
 	public static Class<?> boxing(Class<?> clazz) {
 		return PRIMITIVE_CLASS_MAP.get(clazz);
 	}
@@ -64,7 +60,7 @@ public class JavaUtil {
 						isAssignable |= parameterTypes[i].isAssignableFrom(argsType[i]);
 						if (!isAssignable) {
 							// check primitive
-							if (!(isPrimitive(parameterTypes[i]) && boxing(parameterTypes[i]).equals(argsType[i]))) {
+							if (!(parameterTypes[i].isPrimitive() && boxing(parameterTypes[i]).equals(argsType[i]))) {
 								break matching;
 							}
 						}
@@ -107,7 +103,7 @@ public class JavaUtil {
 						isAssignable |= parameterTypes[i].isAssignableFrom(argsType[i]);
 						if (!isAssignable) {
 							// check primitive
-							if (!(isPrimitive(parameterTypes[i]) && boxing(parameterTypes[i]).equals(argsType[i]))) {
+							if (!(parameterTypes[i].isPrimitive() && boxing(parameterTypes[i]).equals(argsType[i]))) {
 								break matching;
 							}
 						}
