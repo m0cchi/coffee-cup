@@ -38,7 +38,7 @@ public class JavaUtil {
 	}
 
 	private static AccessibleObject toAccessible(AccessibleObject method) {
-		if (!method.isAccessible()) {
+		if (method != null && !method.isAccessible()) {
 			method.setAccessible(true);
 		}
 		return method;
