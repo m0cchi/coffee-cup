@@ -3,11 +3,11 @@ package net.m0cchi.value.i;
 import net.m0cchi.value.Element;
 
 public interface ListAPI {
-	Element car();
+	<T extends Element> T car();
 
 	Element cdr();
 
-	Element get(int i);
+	<T extends Element> T get(int i);
 
 	int length();
 

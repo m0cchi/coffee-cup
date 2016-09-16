@@ -50,9 +50,8 @@ public class Defun extends Macro {
 
 	@Override
 	public Element invoke(Environment environment) {
-		@SuppressWarnings("unchecked")
-		Value<String> name = (Value<String>) environment.getValue(getArgs()[0]);
-		final SList args = (SList) environment.getValue(getArgs()[1]);
+		Value<String> name = environment.getValue(getArgs()[0]);
+		final SList args = environment.getValue(getArgs()[1]);
 		final Element[] body = ((SList) environment.getValue(getArgs()[3])).toArray();
 		final String NAME = name.getNativeValue();
 

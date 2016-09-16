@@ -15,8 +15,7 @@ public class InPackage extends Function {
 
 	@Override
 	public Element invoke(Environment environment) {
-		@SuppressWarnings("unchecked")
-		Value<String> name = (Value<String>) environment.getValue(getArgs()[0]);
+		Value<String> name = environment.getValue(getArgs()[0]);
 		if (Environment.hasPackage(name.getNativeValue())) {
 			environment.getParent().load(name.getNativeValue());
 		} else {

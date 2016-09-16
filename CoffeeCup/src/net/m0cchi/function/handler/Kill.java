@@ -16,7 +16,7 @@ public class Kill extends Function {
 
 	@Override
 	public Element invoke(Environment environment) {
-		Value<?> targetValue = (Value<?>) environment.getValue(getArgs()[0]);
+		Value<?> targetValue = environment.getValue(getArgs()[0]);
 		Object target = targetValue.getNativeValue();
 		if (target instanceof Signal) {
 			throw (Signal) target;

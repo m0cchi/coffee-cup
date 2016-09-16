@@ -14,7 +14,7 @@ public class NewList extends Function {
 
 	@Override
 	public Element invoke(Environment environment) {
-		SList list = (SList) environment.getValue(getArgs()[1]);
+		SList list = environment.getValue(getArgs()[1]);
 		return list;
 	}
 

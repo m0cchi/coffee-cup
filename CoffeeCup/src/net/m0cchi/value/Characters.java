@@ -10,8 +10,9 @@ public class Characters extends Value<String> implements ListAPI {
 		super(AtomicType.LETTER, value);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Element car() {
+	public Characters car() {
 		return get(0);
 	}
 
@@ -21,8 +22,9 @@ public class Characters extends Value<String> implements ListAPI {
 		return new Characters(value.substring(1, len - 1));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Element get(int i) {
+	public Characters get(int i) {
 		return new Characters(value.substring(i, i + 1));
 	}
 

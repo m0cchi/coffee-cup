@@ -31,7 +31,7 @@ public class SyntaxAnalyzer {
 		return first;
 	}
 
-	public Element parse() {
+	public SList parse() {
 		Element value;
 		List<Element> list = new ArrayList<>();
 		while ((value = lexicalAnalyzer.take()) != null && value.getType() != AtomicType.TERMINAL) {

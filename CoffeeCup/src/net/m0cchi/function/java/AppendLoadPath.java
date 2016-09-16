@@ -20,8 +20,7 @@ public class AppendLoadPath extends Function {
 
 	@Override
 	public Element invoke(Environment environment) {
-		@SuppressWarnings("unchecked")
-		Value<String> pathData = (Value<String>) environment.getValue(getArgs()[0]);
+		Value<String> pathData = environment.getValue(getArgs()[0]);
 
 		File path = new File(pathData.getNativeValue());
 

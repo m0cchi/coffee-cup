@@ -14,7 +14,7 @@ public class DoList extends Function {
 
 	@Override
 	public Element invoke(Environment environment) {
-		SList list = (SList) environment.getValue(getArgs()[1]);
+		SList list = environment.getValue(getArgs()[1]);
 		Element[] values = list.toArray();
 		return values[values.length - 1];
 	}

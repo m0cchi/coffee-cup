@@ -21,10 +21,9 @@ public class GetField extends Macro {
 
 	@Override
 	public Element invoke(Environment environment) {
-		@SuppressWarnings("unchecked")
-		Value<String> fieldNameValue = (Value<String>) environment.getValue(getArgs()[0]);
-		Value<?> instanceValue = (Value<?>) environment.getValue(getArgs()[1]);
-		instanceValue = (Value<?>) new SemanticAnalyzer(environment).evaluate(instanceValue);
+		Value<String> fieldNameValue = environment.getValue(getArgs()[0]);
+		Value<?> instanceValue = environment.getValue(getArgs()[1]);
+		instanceValue = new SemanticAnalyzer(environment).evaluate(instanceValue);
 		Object instance = instanceValue.getNativeValue();
 		boolean isClass = instance instanceof Class;
 		@SuppressWarnings("unchecked")

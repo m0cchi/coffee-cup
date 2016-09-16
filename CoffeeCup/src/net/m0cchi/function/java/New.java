@@ -24,15 +24,14 @@ public class New extends Macro {
 	@Override
 	public Element invoke(Environment environment) {
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
-		@SuppressWarnings("unchecked")
-		Value<String> name = (Value<String>) environment.getValue(getArgs()[0]);
-		SList args = (SList) environment.getValue(getArgs()[2]);
+		Value<String> name = environment.getValue(getArgs()[0]);
+		SList args = environment.getValue(getArgs()[2]);
 		Element ret = null;
 
 		List<Class<?>> argsType = new ArrayList<>();
 		List<Object> argsList = new ArrayList<>();
 		for (Element element : args.getNativeValue()) {
-			Value<?> value = (Value<?>) semanticAnalyzer.evaluate(element);
+			Value<?> value = semanticAnalyzer.evaluate(element);
 			Object object = value.getNativeValue();
 			argsType.add(object.getClass());
 			argsList.add((object instanceof NULL) ? null : object);

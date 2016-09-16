@@ -26,9 +26,10 @@ public class SList extends Value<List<Element>> implements ListAPI {
 		return value.toArray(new Element[0]);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Element get(int index) {
-		return value.get(index);
+	public <T extends Element> T get(int index) {
+		return (T) value.get(index);
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public class SList extends Value<List<Element>> implements ListAPI {
 	}
 
 	@Override
-	public Element car() {
+	public <T extends Element> T car() {
 		return get(0);
 	}
 

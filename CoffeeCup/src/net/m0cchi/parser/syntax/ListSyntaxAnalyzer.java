@@ -18,7 +18,7 @@ public class ListSyntaxAnalyzer extends SyntaxAnalyzer {
 		return value.getType() == AtomicType.LEFT_PARENTHESIS;
 	}
 	
-	public Element parse() {
+	public SList parse() {
 		Element value = lexicalAnalyzer.take();
 		List<Element> list = new ArrayList<>();
 		
