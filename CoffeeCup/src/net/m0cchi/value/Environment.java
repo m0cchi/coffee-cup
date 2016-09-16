@@ -47,6 +47,16 @@ public class Environment implements Serializable {
 		this.variableMap.put(name, element);
 	}
 
+	public void renameFunction(String oldName, String newName) {
+		Function function = this.functionMap.remove(oldName);
+		this.functionMap.put(newName, function);
+	}
+	
+	public void renameVariable(String oldName, String newName) {
+		Element obj = this.variableMap.remove(oldName);
+		this.variableMap.put(newName, obj);
+	}
+
 	@SuppressWarnings("unchecked")
 	public <T extends Element> T getValue(String name) {
 		return (T) (this.variableMap.containsKey(name) ? this.variableMap.get(name) : this.parent != null ? this.parent.getValue(name) : new SList());
