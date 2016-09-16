@@ -43,7 +43,7 @@ public class ToBoolean extends Function {
 	}
 
 	@Override
-	public Element invoke(Environment environment) {
+	public Value<Boolean> invoke(Environment environment) {
 		Element obj = environment.getValue(getArgs()[0]);
 		Value<Boolean> ret = new Value<>(AtomicType.BOOL, isTrue(obj));
 		return ret;
