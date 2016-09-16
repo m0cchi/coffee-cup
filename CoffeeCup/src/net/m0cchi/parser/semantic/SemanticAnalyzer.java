@@ -32,7 +32,8 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 		return null;
 	}
 
-	private Element invokeFunction(Element head, Element[] args) {
+	@SuppressWarnings("unchecked")
+	private <T extends Element> T invokeFunction(Element head, Element[] args) {
 		Function function = internFunction(head);
 		if (function == null) {
 			Abort abort = new Abort();
@@ -43,23 +44,23 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 		if (function instanceof Macro) {
 			ret = evaluate(ret);
 		}
-		return ret;
+		return (T) ret;
 	}
 
-	public Element evaluate(List<Element> value) {
+	public <T extends Element> T evaluate(List<Element> value) {
 		Element head = value.get(0);
 		Element[] args = value.subList(1, value.size()).toArray(new Element[0]);
 		return invokeFunction(head, args);
 	}
 
-	public Element evaluate(SList value) {
+	public <T extends Element> T evaluate(SList value) {
 		Element head = value.get(0);
 		Element[] args = value.cdr().toArray();
 		return invokeFunction(head, args);
 	}
 
 	@SuppressWarnings("unchecked")
-	public Element evaluate(Element value) {
+	public <T extends Element> T evaluate(Element value) {
 		Element ret = null;
 		AtomicType type = value.getType();
 		switch (type) {
@@ -81,7 +82,7 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 		default:
 			ret = value;
 		}
-		return ret;
+		return (T) ret;
 	}
 
 }

@@ -47,8 +47,9 @@ public class Environment implements Serializable {
 		this.variableMap.put(name, element);
 	}
 
-	public Element getValue(String name) {
-		return this.variableMap.containsKey(name) ? this.variableMap.get(name) : this.parent != null ? this.parent.getValue(name) : new SList();
+	@SuppressWarnings("unchecked")
+	public <T extends Element> T getValue(String name) {
+		return (T) (this.variableMap.containsKey(name) ? this.variableMap.get(name) : this.parent != null ? this.parent.getValue(name) : new SList());
 	}
 
 	public void setValue(String name, Element value) {
