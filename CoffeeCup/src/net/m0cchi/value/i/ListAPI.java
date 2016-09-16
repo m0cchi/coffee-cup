@@ -15,8 +15,11 @@ public interface ListAPI {
 
 	Element[] toArray();
 
-	void add(int index, Element element);
+	ListAPI add(int index, Element element);
 
-	void add(Element element);
+	void addE(int index, Element element);
 
+	ListAPI add(Element element);
+
+	void addE(Element element);
 }

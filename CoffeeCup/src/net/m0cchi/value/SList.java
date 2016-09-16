@@ -33,12 +33,12 @@ public class SList extends Value<List<Element>> implements ListAPI {
 	}
 
 	@Override
-	public void add(int index, Element element) {
+	public void addE(int index, Element element) {
 		this.value.add(index, element);
 	}
 
 	@Override
-	public void add(Element element) {
+	public void addE(Element element) {
 		this.value.add(element);
 	}
 	
@@ -57,6 +57,22 @@ public class SList extends Value<List<Element>> implements ListAPI {
 	@Override
 	public int length() {
 		return value.size();
+	}
+
+	@Override
+	public ListAPI add(int index, Element element) {
+		List<Element> list = new ArrayList<>(this.value);
+		list.add(index, element);
+		SList slist = new SList(list);
+		return slist;
+	}
+
+	@Override
+	public ListAPI add(Element element) {
+		List<Element> list = new ArrayList<>(this.value);
+		list.add(element);
+		SList slist = new SList(list);
+		return slist;
 	}
 
 }

@@ -48,7 +48,7 @@ public class Characters extends Value<String> implements ListAPI {
 	}
 
 	@Override
-	public void add(int index, Element element) {
+	public void addE(int index, Element element) {
 		if (element instanceof Value) {
 			StringBuilder sb = new StringBuilder();
 			sb.append(value.substring(0, index));
@@ -61,7 +61,7 @@ public class Characters extends Value<String> implements ListAPI {
 	}
 
 	@Override
-	public void add(Element element) {
+	public void addE(Element element) {
 		if (element instanceof Value) {
 			String string = ((Value<?>) element).getNativeValue().toString();
 			StringBuilder sb = new StringBuilder();
@@ -96,6 +96,22 @@ public class Characters extends Value<String> implements ListAPI {
 			index = value.indexOf(target);
 		}
 		return new Value<Integer>(AtomicType.DIGIT, index);
+	}
+
+	@Override
+	public ListAPI add(int index, Element element) {
+		String copy = new String(this.value);
+		Characters characters = new Characters(copy);
+		characters.add(index, element);
+		return characters;
+	}
+
+	@Override
+	public ListAPI add(Element element) {
+		String copy = new String(this.value);
+		Characters characters = new Characters(copy);
+		characters.add(element);
+		return characters;
 	}
 
 }
