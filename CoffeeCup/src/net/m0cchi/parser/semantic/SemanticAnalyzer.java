@@ -13,7 +13,6 @@ import net.m0cchi.value.Function;
 import net.m0cchi.value.Macro;
 import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
-import sun.reflect.Reflection;
 
 public class SemanticAnalyzer implements ISemanticAnalyzer {
 	private Environment environment;
