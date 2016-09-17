@@ -21,12 +21,11 @@ public class Remote extends Macro {
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		Element connection = environment.getValue(getArgs()[0]);
 
-		@SuppressWarnings("unchecked")
-		Value<ISemanticAnalyzer> semanticAnalyzerValue = (Value<ISemanticAnalyzer>) semanticAnalyzer.evaluate(connection);
+		Value<ISemanticAnalyzer> semanticAnalyzerValue = semanticAnalyzer.evaluate(connection);
 		ISemanticAnalyzer remoteSemanticAnalyzer = semanticAnalyzerValue.getNativeValue();
 
 		SList list = (SList) environment.getValue(getArgs()[2]);
-		list.add(0, new DoList());
+		list.addE(0, new DoList());
 
 		return remoteSemanticAnalyzer.evaluate(list);
 	}
