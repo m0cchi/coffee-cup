@@ -1,8 +1,11 @@
 package net.m0cchi.parser.semantic;
 
+import java.util.Arrays;
 import java.util.List;
 
 import net.m0cchi.exception.handler.Abort;
+import net.m0cchi.exception.handler.Info;
+import net.m0cchi.exception.handler.Signal;
 import net.m0cchi.value.AtomicType;
 import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
@@ -10,6 +13,7 @@ import net.m0cchi.value.Function;
 import net.m0cchi.value.Macro;
 import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
+import sun.reflect.Reflection;
 
 public class SemanticAnalyzer implements ISemanticAnalyzer {
 	private Environment environment;
@@ -36,13 +40,22 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 	private <T extends Element> T invokeFunction(Element head, Element[] args) {
 		Function function = internFunction(head);
 		if (function == null) {
+			Signal info = new Info("func:" + head + ",args:" + Arrays.toString(args));
 			Abort abort = new Abort();
+			abort.addSuppressed(info);
 			abort.addSuppressed(new NullPointerException(head.toString()));
 			throw abort;
 		}
-		Element ret = function.invoke(this.environment, args);
-		if (function instanceof Macro) {
-			ret = evaluate(ret);
+		Element ret = null;
+		try {
+			ret = function.invoke(this.environment, args);
+			if (function instanceof Macro) {
+				ret = evaluate(ret);
+			}
+		} catch (Throwable signal) {
+			Signal info = new Info("func:" + head + ",args:" + Arrays.toString(args));
+			signal.addSuppressed(info);
+			throw signal;
 		}
 		return (T) ret;
 	}
