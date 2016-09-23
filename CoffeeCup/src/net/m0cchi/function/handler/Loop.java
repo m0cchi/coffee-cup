@@ -20,7 +20,7 @@ public class Loop extends Macro {
 		SList body = environment.getValue(getArgs()[1]);
 		SemanticAnalyzer semanticAnalyzer = new SemanticAnalyzer(environment);
 		Element ret = NIL.NIL;
-		body.add(0, new DoList());// insert head
+		body.addE(0, new DoList());// insert head
 		while (true) {
 			try {
 				ret = semanticAnalyzer.evaluate(body);
