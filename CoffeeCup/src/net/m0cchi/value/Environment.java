@@ -15,8 +15,8 @@ public class Environment implements Serializable {
 	private Environment parent;
 
 	public Environment() {
-		variableMap = new HashMap<>();
-		functionMap = new HashMap<>();
+		variableMap = new ConcurrentHashMap<>();
+		functionMap = new ConcurrentHashMap<>();
 		variableMap.put("nil", NIL.NIL);
 	}
 
