@@ -59,7 +59,14 @@ public class Environment implements Serializable {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Element> T getValue(String name) {
-		return (T) (this.variableMap.containsKey(name) ? this.variableMap.get(name) : this.parent != null ? this.parent.getValue(name) : new SList());
+		Environment pointer = this;
+		do {
+			if (pointer.variableMap.containsKey(name)) {
+				return (T) pointer.variableMap.get(name);
+			}
+		} while ((pointer = pointer.getParent()) != null);
+
+		return (T) new SList();
 	}
 
 	public void setValue(String name, Element value) {
@@ -86,7 +93,14 @@ public class Environment implements Serializable {
 	}
 
 	public Function getFunction(String name) {
-		return this.functionMap.containsKey(name) ? this.functionMap.get(name) : this.parent != null ? this.parent.getFunction(name) : null;
+		Environment pointer = this;
+		do {
+			if (pointer.functionMap.containsKey(name)) {
+				return pointer.functionMap.get(name);
+			}
+		} while ((pointer = pointer.getParent()) != null);
+
+		return null;
 	}
 
 	public Environment getParent() {
