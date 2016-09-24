@@ -16,7 +16,7 @@ public class Value<T> extends Element implements Serializable {
 	}
 	
 	public String toString() {
-		return value.toString();
+		return value == null ? "null" : value.toString();
 	}
 
 	@Override
