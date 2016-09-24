@@ -22,10 +22,10 @@ public class SyntaxAnalyzer {
 			lexicalAnalyzer.push(first);
 			ListSyntaxAnalyzer syntaxAnalyzer = new ListSyntaxAnalyzer(lexicalAnalyzer);
 			return syntaxAnalyzer.parse();
-		} else if (type == AtomicType.QUOTE) {
+		} else if (type == AtomicType.QUOTE || type == AtomicType.QUASI_QUOTE) {
 			Element second = parse(lexicalAnalyzer.take());
 			if (second.getType() == AtomicType.SYMBOL || second.getType() == AtomicType.SLIST) {
-				return new Value<Element>(AtomicType.QUOTE, second);
+				return new Value<Element>(type, second);
 			}
 		}
 		return first;

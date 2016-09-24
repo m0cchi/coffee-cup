@@ -1,6 +1,8 @@
 package net.m0cchi.parser.semantic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import net.m0cchi.exception.handler.Abort;
@@ -11,6 +13,7 @@ import net.m0cchi.value.Element;
 import net.m0cchi.value.Environment;
 import net.m0cchi.value.Function;
 import net.m0cchi.value.Macro;
+import net.m0cchi.value.NULL.NIL;
 import net.m0cchi.value.SList;
 import net.m0cchi.value.Value;
 
@@ -39,6 +42,10 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 	private <T extends Element> T invokeFunction(Element head, Element[] args) {
 		Function function = internFunction(head);
 		if (function == null) {
+			if (head.toString().equals("println")) {
+
+				System.out.println("stop");
+			}
 			Signal info = new Info("func:" + head + ",args:" + Arrays.toString(args));
 			Abort abort = new Abort();
 			abort.addSuppressed(info);
@@ -71,6 +78,52 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 		return invokeFunction(head, args);
 	}
 
+	public SList unquote(List<? extends Element> list) {
+		ArrayList<Element> ret = new ArrayList<>();
+		Iterator<? extends Element> iterator = list.iterator();
+
+		while (iterator.hasNext()) {
+			Element element = iterator.next();
+			if (AtomicType.COMMA.equals(element.getType())) {
+				ret.add(evaluate(iterator.next()));
+			} else if (element instanceof SList) {
+				SList res = unquote(((SList) element).getNativeValue());
+				ret.add(res);
+			} else if (element instanceof Value<?>) {
+				Object object = ((Value<?>) element);
+				if (object instanceof List) {
+					@SuppressWarnings("unchecked")
+					SList res = unquote((List<? extends Element>) object);
+					ret.add(res);
+				} else {
+					ret.add(element);
+				}
+			} else {
+				ret.add(element);
+			}
+		}
+		return new SList(ret);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Element unquote(Element element) {
+		Element ret = NIL.NIL;
+		if (element instanceof SList) {
+			ret = unquote(((SList) element).getNativeValue());
+		} else if (element instanceof Value<?>) {
+			Value<?> slist = (Value<?>) element;
+			Object object = slist.getNativeValue();
+			if (object instanceof List) {
+				ret = unquote((List<Element>)object);
+			} else {
+				ret = element;
+			}
+		} else {
+			ret = element;
+		}
+		return ret;
+	}
+
 	@SuppressWarnings("unchecked")
 	public <T extends Element> T evaluate(Element value) {
 		Element ret = null;
@@ -87,6 +140,9 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 		case SYMBOL:
 			String name = ((Value<String>) value).getNativeValue();
 			ret = environment.getValue(name);
+			break;
+		case QUASI_QUOTE:
+			ret = unquote(((Value<Element>) value).getNativeValue());
 			break;
 		case QUOTE:
 			ret = ((Value<Element>) value).getNativeValue();

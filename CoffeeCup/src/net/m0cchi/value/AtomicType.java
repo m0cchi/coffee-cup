@@ -1,5 +1,6 @@
 package net.m0cchi.value;
 
+
 public enum AtomicType {
 	LEFT_PARENTHESIS,
 	RIGHT_PARENTHESIS,
@@ -13,5 +14,7 @@ public enum AtomicType {
 	MACRO,
 	JAVA,
 	BOOL,
+	QUASI_QUOTE,
+	COMMA,
 	NIL
 }

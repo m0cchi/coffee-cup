@@ -47,6 +47,8 @@ public abstract class AbstractLexicalAnalyzer {
 		// init sign
 		PARENTHESIS_MAP.putIfAbsent(toAsciiCode("("), AtomicType.LEFT_PARENTHESIS);
 		PARENTHESIS_MAP.putIfAbsent(toAsciiCode(")"), AtomicType.RIGHT_PARENTHESIS);
+		SIGN_MAP.putIfAbsent(toAsciiCode("`"), AtomicType.QUASI_QUOTE);
+		SIGN_MAP.putIfAbsent(toAsciiCode(","), AtomicType.COMMA);
 		SIGN_MAP.putAll(PARENTHESIS_MAP);
 		SIGN_MAP.putIfAbsent(toAsciiCode("'"), AtomicType.QUOTE);
 		// init skip
