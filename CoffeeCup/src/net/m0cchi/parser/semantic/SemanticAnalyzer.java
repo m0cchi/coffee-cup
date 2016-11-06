@@ -42,10 +42,6 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 	private <T extends Element> T invokeFunction(Element head, Element[] args) {
 		Function function = internFunction(head);
 		if (function == null) {
-			if (head.toString().equals("println")) {
-
-				System.out.println("stop");
-			}
 			Signal info = new Info("func:" + head + ",args:" + Arrays.toString(args));
 			Abort abort = new Abort();
 			abort.addSuppressed(info);
@@ -114,7 +110,7 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 			Value<?> slist = (Value<?>) element;
 			Object object = slist.getNativeValue();
 			if (object instanceof List) {
-				ret = unquote((List<Element>)object);
+				ret = unquote((List<Element>) object);
 			} else {
 				ret = element;
 			}
