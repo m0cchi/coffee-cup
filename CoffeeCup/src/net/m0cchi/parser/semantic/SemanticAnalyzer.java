@@ -120,7 +120,7 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 		return ret;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public <T extends Element> T evaluate(Element value) {
 		Element ret = null;
 		AtomicType type = value.getType();
@@ -138,10 +138,10 @@ public class SemanticAnalyzer implements ISemanticAnalyzer {
 			ret = environment.getValue(name);
 			break;
 		case QUASI_QUOTE:
-			ret = unquote(((Value<Element>) value).getNativeValue());
+			ret = unquote(((Value<Element>) value).getNativeValue().shallowCopy());
 			break;
 		case QUOTE:
-			ret = ((Value<Element>) value).getNativeValue();
+			ret = ((Value<Element>) value).getNativeValue().shallowCopy();
 			break;
 		default:
 			ret = value;

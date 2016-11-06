@@ -14,7 +14,7 @@ public class Value<T> extends Element implements Serializable {
 	public T getNativeValue() {
 		return value;
 	}
-	
+
 	public String toString() {
 		return value == null ? "null" : value.toString();
 	}
@@ -44,4 +44,8 @@ public class Value<T> extends Element implements Serializable {
 		return true;
 	}
 
+	@Override
+	public Value<T> shallowCopy() {
+		return new Value<T>(type, value);
+	}
 }

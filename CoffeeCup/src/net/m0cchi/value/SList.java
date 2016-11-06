@@ -41,7 +41,7 @@ public class SList extends Value<List<Element>> implements ListAPI {
 	public void addE(Element element) {
 		this.value.add(element);
 	}
-	
+
 	@Override
 	public SList cdr() {
 		List<Element> list = new ArrayList<>(this.value);
@@ -73,6 +73,11 @@ public class SList extends Value<List<Element>> implements ListAPI {
 		list.add(element);
 		SList slist = new SList(list);
 		return slist;
+	}
+
+	@Override
+	public SList shallowCopy() {
+		return new SList(new ArrayList<>(value));
 	}
 
 }

@@ -31,5 +31,14 @@ public abstract class Element implements Serializable {
 			return false;
 		return true;
 	}
-	
+
+	/**
+	 * unsupport
+	 * @deprecated
+	 * @return
+	 */
+	public Element shallowCopy() {
+		return this;
+	}
+
 }
