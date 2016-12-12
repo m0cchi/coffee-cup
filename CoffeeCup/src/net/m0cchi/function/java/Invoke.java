@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.m0cchi.exception.handler.Info;
 import net.m0cchi.function.java.util.JavaUtil;
 import net.m0cchi.parser.semantic.SemanticAnalyzer;
 import net.m0cchi.value.AtomicType;
@@ -58,6 +59,8 @@ public class Invoke extends Macro {
 		} catch (Throwable e) {
 			// TODO: other exception
 			ret = new SList();
+			Info info = new Info("missing:" + name.getNativeValue() + ", class:" + instance.getNativeValue().getClass() + ", args type:" + argsType + ", args:" + argsList.toString());
+			e.addSuppressed(info);
 			e.printStackTrace();
 		}
 
