@@ -1,7 +1,6 @@
 package net.m0cchi.value;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,8 +20,8 @@ public class Environment implements Serializable {
 	}
 
 	public Environment(Environment environment) {
-		variableMap = new HashMap<>();
-		functionMap = new HashMap<>();
+		variableMap = new ConcurrentHashMap<>();
+		functionMap = new ConcurrentHashMap<>();
 		this.parent = environment;
 	}
 
@@ -112,7 +111,6 @@ public class Environment implements Serializable {
 	}
 
 	public ClassLoader getClassLoader() {
-		// TODO: impl package
 		return Environment.class.getClassLoader();
 	}
 
