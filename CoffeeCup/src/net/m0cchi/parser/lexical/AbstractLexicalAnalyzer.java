@@ -17,10 +17,11 @@ public abstract class AbstractLexicalAnalyzer {
 	 */
 	protected final static int EOF = -1;
 	protected final static int DOT;
-	protected final static int NEW_LINE = toAsciiCode("\n");
-	protected final static int SKIP_LINE = toAsciiCode(";");
-	protected final static int ESCAPE_FLAG = toAsciiCode("\\");
-	protected final static int N = toAsciiCode("n");
+	protected final static int NEW_LINE = '\n';
+	protected final static int RETURN = '\r';
+	protected final static int SKIP_LINE = ';';
+	protected final static int ESCAPE_FLAG = '\\';
+	protected final static int N = 'n';
 	private final static Map<Integer, AtomicType> PARENTHESIS_MAP = new HashMap<>();
 	private final static Map<Integer, AtomicType> SIGN_MAP = new HashMap<>();
 	private final static List<Integer> SKIP_LIST = new ArrayList<>();
@@ -36,7 +37,7 @@ public abstract class AbstractLexicalAnalyzer {
 
 	static {
 		init();
-		DOT = toAsciiCode(".");
+		DOT = '.';
 	}
 
 	private static int toAsciiCode(String character) {
@@ -45,26 +46,26 @@ public abstract class AbstractLexicalAnalyzer {
 
 	private static void init() {
 		// init sign
-		PARENTHESIS_MAP.putIfAbsent(toAsciiCode("("), AtomicType.LEFT_PARENTHESIS);
-		PARENTHESIS_MAP.putIfAbsent(toAsciiCode(")"), AtomicType.RIGHT_PARENTHESIS);
-		SIGN_MAP.putIfAbsent(toAsciiCode("`"), AtomicType.QUASI_QUOTE);
-		SIGN_MAP.putIfAbsent(toAsciiCode(","), AtomicType.COMMA);
+		PARENTHESIS_MAP.putIfAbsent((int) '(', AtomicType.LEFT_PARENTHESIS);
+		PARENTHESIS_MAP.putIfAbsent((int) ')', AtomicType.RIGHT_PARENTHESIS);
+		SIGN_MAP.putIfAbsent((int) '`', AtomicType.QUASI_QUOTE);
+		SIGN_MAP.putIfAbsent((int) ',', AtomicType.COMMA);
 		SIGN_MAP.putAll(PARENTHESIS_MAP);
-		SIGN_MAP.putIfAbsent(toAsciiCode("'"), AtomicType.QUOTE);
+		SIGN_MAP.putIfAbsent((int) '\'', AtomicType.QUOTE);
 		// init skip
-		SKIP_LIST.add(toAsciiCode("\n"));
-		SKIP_LIST.add(toAsciiCode("\r"));
-		SKIP_LIST.add(toAsciiCode(" "));
+		SKIP_LIST.add(NEW_LINE);
+		SKIP_LIST.add(RETURN);
+		SKIP_LIST.add((int) ' ');
 		// init number
-		for (String code : "1,2,3,4,5,6,7,8,9,0".split(",")) {
-			DIGIT_LIST.add(toAsciiCode(code));
+		for (int step = 0, code = (int) '0'; step < 10; step++) {
+			DIGIT_LIST.add(code + step);
 		}
 		// init letter
 		for (String code : "'\"".split("")) {
 			LETTER_LIST.add(toAsciiCode(code));
 		}
 		// init bool
-		BOOL_LIST.add(toAsciiCode("T"));
+		BOOL_LIST.add((int) 'T');
 	}
 
 	protected static int escape(int code) {
